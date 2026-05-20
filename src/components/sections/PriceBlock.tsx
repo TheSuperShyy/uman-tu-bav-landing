@@ -15,11 +15,8 @@ export default function PriceBlock() {
           <p className="text-3xl sm:text-5xl font-extrabold text-ink-deep text-balance leading-tight mb-5">
             {priceTeaser.headline}
           </p>
-          <p className="text-lg sm:text-xl text-ink-body text-pretty mb-8">
+          <p className="text-lg sm:text-xl text-ink-body text-pretty mb-10">
             {priceTeaser.body}
-          </p>
-          <p className="text-sm sm:text-base tracking-wide text-ink-deep/70 italic mb-8">
-            {priceTeaser.reveal}
           </p>
           <Button
             pulse
