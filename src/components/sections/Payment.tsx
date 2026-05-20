@@ -1,16 +1,58 @@
+import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../layout/Section';
 import Reveal from '../motion/Reveal';
 import Card from '../ui/Card';
-import { payment } from '../../content/copy.he';
+import Button from '../ui/Button';
+import CountUp from '../ui/CountUp';
+import { payment, price, priceReveal } from '../../content/copy.he';
 
 export default function Payment() {
+  const reduced = useReducedMotion();
+
   return (
-    <Section bg="bg-cream">
-      <div className="text-center mb-10">
+    <Section id="price-reveal" bg="bg-cream" className="relative overflow-hidden">
+      {/* Decorative warm glow behind the price */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'radial-gradient(ellipse 55% 50% at 50% 30%, rgba(195,149,125,0.22) 0%, rgba(195,149,125,0) 70%)',
+        }}
+        animate={reduced ? undefined : { opacity: [0.85, 1, 0.85] }}
+        transition={reduced ? undefined : { duration: 6, ease: 'easeInOut', repeat: Infinity }}
+      />
+
+      <div className="mx-auto max-w-2xl text-center">
         <Reveal>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-balance text-ink-deep">
-            {payment.title}
-          </h2>
+          <p className="text-xs sm:text-sm tracking-[0.32em] uppercase text-accent mb-4">
+            {priceReveal.kicker}
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.05}>
+          <p className="text-sm sm:text-base tracking-wide text-ink-deep/70 mb-3">
+            {priceReveal.label}
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <div className="relative inline-flex items-baseline gap-1 mb-2 leading-none">
+            <CountUp
+              to={price.amountValue}
+              duration={1.9}
+              className="font-extrabold text-ink-deep text-[64px] sm:text-[96px] lg:text-[112px] tracking-tight tabular-nums"
+            />
+            <span className="font-extrabold text-ink-deep text-4xl sm:text-6xl lg:text-7xl">
+              {priceReveal.currency}
+            </span>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.25}>
+          <p className="text-base sm:text-lg text-ink-body/85 text-pretty mb-12 max-w-md mx-auto">
+            {priceReveal.postlude}
+          </p>
         </Reveal>
       </div>
 
@@ -30,6 +72,19 @@ export default function Payment() {
             </Card>
           </Reveal.Item>
         ))}
+      </Reveal>
+
+      <Reveal delay={0.2}>
+        <div className="text-center mt-12">
+          <Button
+            pulse
+            onClick={() =>
+              document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })
+            }
+          >
+            {price.cta}
+          </Button>
+        </div>
       </Reveal>
     </Section>
   );

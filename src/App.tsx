@@ -46,8 +46,6 @@ export default function App() {
       <Divider />
       <ImportantInfo />
       <Divider />
-      <Payment />
-      <Divider />
       <Itinerary />
       <CinematicMoment
         image={editorial.challahTable}
@@ -63,6 +61,7 @@ export default function App() {
         height="tall"
       />
       <Gallery />
+      <Payment />
       <LeadForm />
       <ClosingQuote />
       <Footer />

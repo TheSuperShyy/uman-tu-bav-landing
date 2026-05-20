@@ -47,8 +47,27 @@ export const marquee = [
 export const price = {
   label: 'מחיר המסע',
   amount: '5,900₪',
+  amountValue: 5900,
   scarcity: 'מספר המקומות מוגבל',
   cta: '✨ אני רוצה לשמור מקום',
+} as const;
+
+// Early-page teaser — no number, builds desire. The real price reveal
+// lives right before the LeadForm (see Payment.tsx).
+export const priceTeaser = {
+  kicker: 'מספר המקומות מוגבל ✨',
+  headline: 'השקעה אחת. שינוי של שנה.',
+  body: 'יש מסעות שמשנים את המסלול. ויש כאלה שמשנים את הלב.',
+  reveal: 'המחיר המלא נחשף בהמשך הדף',
+  cta: 'אני רוצה לקרוא הכל ↓',
+} as const;
+
+// Big reveal moment (just before the lead form).
+export const priceReveal = {
+  kicker: 'הרגע שבו זה הופך לאמיתי',
+  label: 'מחיר המסע',
+  currency: '₪',
+  postlude: 'כולל טיסות, מלון מפנק, ארוחות, הפקה והפתעות',
 } as const;
 
 export const whyTuBav = {
