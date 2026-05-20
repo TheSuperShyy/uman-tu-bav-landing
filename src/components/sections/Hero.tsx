@@ -33,7 +33,8 @@ export default function Hero() {
             src={editorial.heroBackdrop}
             alt=""
             className="h-full w-full object-cover"
-            fetchPriority="high"
+            // @ts-expect-error — React expects lowercase fetchpriority
+            fetchpriority="high"
           />
         ) : (
           <video

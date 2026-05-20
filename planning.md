@@ -47,7 +47,11 @@ Theme-strict replica of the reference [ravpage landing page](https://inbalelmaky
 
 ## Open TODOs
 
-- [ ] Wire `LeadForm` submit to a real target. **Deferred by user.** Candidates: mailto link to clixteam579@gmail.com, Formspree/Web3Forms endpoint, WhatsApp `wa.me/` deep link. Pick before launch.
+- [ ] **HARD BLOCKER for launch — get contact info from Ronit.** The source copy (`content/copy.he.md`) says "ההרשמה מתבצעת לאחר שיחה אישית" (registration happens after a personal call) but does not specify a phone number, email, or WhatsApp. The form is currently UI-only: submit logs a warning and shows the toast "הטופס עוד לא חובר לשירות שליחה — נחזור אלייך אחרי שיחה אישית". Decision needed:
+  - **(preferred for Israeli landing pages)** WhatsApp deep link `https://wa.me/972XXXXXXXXX?text=<encoded fields>` — needs Ronit's WhatsApp number with +972 country code.
+  - mailto: link to Ronit's inbox — needs her email.
+  - Formspree / Web3Forms endpoint — needs a signup at one of those services.
+  - Wire by editing `src/components/sections/LeadForm.tsx` `handleSubmit`.
 - [ ] Confirm the Tu B'Av target date for an optional flip-style countdown timer (Tu B'Av 5786 ≈ early Aug 2026).
 - [ ] Real hero photography (currently placeholder).
 - [ ] Real Ronit Barash branding — logo, headshot, color samples if she has a brand book.
