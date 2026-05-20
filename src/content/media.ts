@@ -65,7 +65,13 @@ export const editorial = {
     photo(7),
   ],
 
-  // Hero background video (optional — falls back to photo if not used)
-  heroVideo: video(2),
-  heroVideoPoster: videoPoster(2),
+  // Hero background video — white roses, Uman Hilula 2025. Falls back
+  // to heroBackdrop photo under prefers-reduced-motion or slow networks.
+  heroVideo: video(3),
+  heroVideoPoster: videoPoster(3),
+
+  // VideoMoment between CinematicMoment #3 and Gallery —
+  // Ronit walking down marble stairs.
+  ronitVideo: video(4),
+  ronitVideoPoster: videoPoster(4),
 } as const;

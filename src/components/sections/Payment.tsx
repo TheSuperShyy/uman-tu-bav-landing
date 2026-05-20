@@ -8,7 +8,7 @@ export default function Payment() {
     <Section bg="bg-cream">
       <div className="text-center mb-10">
         <Reveal>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-balance">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-balance text-ink-deep">
             {payment.title}
           </h2>
         </Reveal>

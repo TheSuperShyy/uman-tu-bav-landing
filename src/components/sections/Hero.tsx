@@ -6,6 +6,8 @@ import Button from '../ui/Button';
 import Container from '../layout/Container';
 import Reveal from '../motion/Reveal';
 
+const TEXT_SHADOW = '0 2px 6px rgba(0,0,0,0.7)';
+
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
@@ -15,7 +17,6 @@ export default function Hero() {
   });
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const bgY = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.7], [0.55, 0.85]);
 
   return (
     <header
@@ -27,32 +28,49 @@ export default function Hero() {
         className="absolute inset-0 -z-20"
         style={{ scale: reduced ? 1 : bgScale, y: reduced ? 0 : bgY }}
       >
-        <img
-          src={editorial.heroBackdrop}
-          alt=""
-          className="h-full w-full object-cover"
-          fetchPriority="high"
-        />
+        {reduced ? (
+          <img
+            src={editorial.heroBackdrop}
+            alt=""
+            className="h-full w-full object-cover"
+            fetchPriority="high"
+          />
+        ) : (
+          <video
+            src={editorial.heroVideo}
+            poster={editorial.heroVideoPoster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden
+            className="h-full w-full object-cover"
+          />
+        )}
       </motion.div>
 
-      <motion.div
+      <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-night/40 via-ink-night/60 to-ink-night/95"
-        style={{ opacity: reduced ? 0.7 : overlayOpacity }}
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-night/75 via-ink-night/82 to-ink-night/95"
       />
 
-      <motion.div
+      {/* Centered radial scrim to darken the area directly behind the text. */}
+      <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.08] mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 -z-10"
         style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>\")",
+          background:
+            'radial-gradient(ellipse 70% 55% at 50% 50%, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 55%, transparent 85%)',
         }}
       />
 
       <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center py-24">
         <Reveal>
-          <p className="text-xs sm:text-sm tracking-[0.32em] uppercase text-gold/95 mb-6">
+          <p
+            style={{ textShadow: TEXT_SHADOW }}
+            className="text-xs sm:text-sm tracking-[0.32em] uppercase text-gold mb-6"
+          >
             {hero.spotlight}
           </p>
         </Reveal>
@@ -61,13 +79,17 @@ export default function Hero() {
           initial={reduced ? false : { opacity: 0, y: 32, letterSpacing: '0.05em' }}
           animate={reduced ? undefined : { opacity: 1, y: 0, letterSpacing: '0em' }}
           transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-          className="text-balance text-4xl sm:text-6xl lg:text-7xl font-extrabold text-ivory leading-[1.1] mb-6 max-w-3xl drop-shadow-[0_3px_18px_rgba(0,0,0,0.5)]"
+          style={{ textShadow: TEXT_SHADOW, color: '#faf6ee' }}
+          className="text-balance text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.1] mb-6 max-w-3xl"
         >
           {hero.title}
         </motion.h1>
 
         <Reveal delay={0.3}>
-          <p className="text-pretty text-lg sm:text-2xl text-ivory/90 max-w-xl mx-auto mb-12 font-light">
+          <p
+            style={{ textShadow: TEXT_SHADOW, color: '#faf6ee' }}
+            className="text-pretty text-lg sm:text-2xl max-w-xl mx-auto mb-12 font-light"
+          >
             {hero.subtitle}
           </p>
         </Reveal>

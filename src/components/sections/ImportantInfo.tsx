@@ -8,7 +8,7 @@ export default function ImportantInfo() {
       <div className="mx-auto max-w-2xl">
         <div className="text-center mb-10">
           <Reveal>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-balance">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-balance text-ink-deep">
               {importantInfo.title}
             </h2>
           </Reveal>

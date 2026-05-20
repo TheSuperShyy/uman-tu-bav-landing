@@ -12,7 +12,7 @@ export default function WhatAwaits() {
 
       <div className="text-center mb-12">
         <Reveal>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-balance">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-balance text-ink-deep">
             {whatAwaits.title}
           </h2>
         </Reveal>

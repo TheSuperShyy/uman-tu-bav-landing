@@ -12,8 +12,11 @@
     font-size: 18px;
     line-height: 1.7;
   }
+  /* Heading color is NOT set in base — each section picks its own
+     (text-ink-deep on cream, text-ivory on photo overlays). A global
+     rule here would compete with overlay headings via specificity. */
   h1, h2, h3, h4 {
-    @apply text-ink-deep font-bold;
+    @apply font-bold;
     line-height: 1.25;
   }
   ::selection {

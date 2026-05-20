@@ -77,6 +77,15 @@ No Hebrew strings live inside JSX. When the markdown changes, update the TS modu
 
 `LeadForm` is **UI-only**. The submit handler must remain a TODO stub — `console.warn('LeadForm not wired yet — see planning.md TODO')` plus a user-visible toast. Do not invent a backend; the wiring decision is deferred to the user (mailto / Formspree / WhatsApp).
 
+## Heading colors
+
+There is **no global heading color in `src/index.css`**. The base layer only sets `font-weight` and `line-height` on `h1–h4`. Each section picks its own color explicitly:
+
+- Cream-background sections (`Intro`, `WhyTuBav`, `WhatAwaits`, `WhoFor`, `ImportantInfo`, `Payment`, `Itinerary`, `Gallery`): `text-ink-deep` on the `<h2>`.
+- Photo/video overlays (`Hero`, `CinematicMoment`, `VideoMoment`, `ClosingQuote`, `LeadForm`): `text-ivory` or inline `color: #faf6ee`.
+
+Do **not** re-add a global `@apply text-ink-deep` to `h1–h4` in `index.css`. It competes with overlay headings via specificity and produces brown text bleeding through over photos.
+
 ## File-organization rules
 
 - `src/components/sections/` — one file per page block, named in reading order (Hero → Footer).

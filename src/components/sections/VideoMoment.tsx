@@ -4,15 +4,12 @@ import Container from '../layout/Container';
 import Reveal from '../motion/Reveal';
 
 type Props = {
-  image: string;
-  /** Hebrew quote or short line laid over the image. Optional. */
+  src: string;
+  poster: string;
   caption?: string;
-  /** Approximate viewport-height ratio. */
-  height?: 'tall' | 'standard' | 'short';
-  /** Optional eyebrow above caption. */
   kicker?: string;
-  /** Optional 2nd line of italic flourish. */
   flourish?: string;
+  height?: 'tall' | 'standard' | 'short';
 };
 
 const HEIGHTS: Record<NonNullable<Props['height']>, string> = {
@@ -21,12 +18,15 @@ const HEIGHTS: Record<NonNullable<Props['height']>, string> = {
   short: 'min-h-[55svh]',
 };
 
-export default function CinematicMoment({
-  image,
+const TEXT_SHADOW = '0 2px 6px rgba(0,0,0,0.7)';
+
+export default function VideoMoment({
+  src,
+  poster,
   caption,
-  height = 'standard',
   kicker,
   flourish,
+  height = 'standard',
 }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
@@ -47,20 +47,27 @@ export default function CinematicMoment({
         className="absolute inset-0 -z-20"
         style={{ y: reduced ? 0 : y, scale: reduced ? 1 : scale }}
       >
-        <img
-          src={image}
-          alt=""
-          className="h-full w-full object-cover"
-          loading="lazy"
-        />
+        {reduced ? (
+          <img src={poster} alt="" className="h-full w-full object-cover" loading="lazy" />
+        ) : (
+          <video
+            src={src}
+            poster={poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden
+            className="h-full w-full object-cover"
+          />
+        )}
       </motion.div>
 
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-night/75 via-ink-night/82 to-ink-night/95"
       />
-
-      {/* Centered radial scrim behind caption for readability. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
@@ -75,7 +82,7 @@ export default function CinematicMoment({
           {kicker && (
             <Reveal>
               <p
-                style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
+                style={{ textShadow: TEXT_SHADOW }}
                 className="text-xs sm:text-sm tracking-[0.32em] uppercase text-gold mb-5"
               >
                 {kicker}
@@ -84,7 +91,7 @@ export default function CinematicMoment({
           )}
           <Reveal delay={0.08}>
             <p
-              style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)', color: '#faf6ee' }}
+              style={{ textShadow: TEXT_SHADOW, color: '#faf6ee' }}
               className="mx-auto max-w-2xl text-balance text-2xl sm:text-4xl lg:text-5xl font-bold leading-snug"
             >
               {caption}
@@ -93,7 +100,7 @@ export default function CinematicMoment({
           {flourish && (
             <Reveal delay={0.18}>
               <p
-                style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)', color: '#faf6ee' }}
+                style={{ textShadow: TEXT_SHADOW, color: '#faf6ee' }}
                 className="mt-5 italic text-base sm:text-lg"
               >
                 {flourish}

@@ -7,7 +7,7 @@ export default function WhyTuBav() {
     <Section bg="bg-cream">
       <div className="mx-auto max-w-2xl text-center">
         <Reveal>
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-10 text-balance">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-10 text-balance text-ink-deep">
             {whyTuBav.title}
           </h2>
         </Reveal>

@@ -12,6 +12,7 @@ import Payment from './components/sections/Payment';
 import Itinerary from './components/sections/Itinerary';
 import Gallery from './components/sections/Gallery';
 import CinematicMoment from './components/sections/CinematicMoment';
+import VideoMoment from './components/sections/VideoMoment';
 import LeadForm from './components/sections/LeadForm';
 import ClosingQuote from './components/sections/ClosingQuote';
 import Footer from './components/sections/Footer';
@@ -53,6 +54,13 @@ export default function App() {
         kicker="הפקה של פעם בשנה"
         caption="כל פרט קטן נעטף באהבה ובאור"
         height="standard"
+      />
+      <VideoMoment
+        src={editorial.ronitVideo}
+        poster={editorial.ronitVideoPoster}
+        kicker="ביחד נצעד אל הציון"
+        caption="כי המסע הזה לא רק טיסה — הוא חיבור"
+        height="tall"
       />
       <Gallery />
       <LeadForm />

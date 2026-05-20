@@ -16,12 +16,26 @@ export default function Intro() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-card ring-1 ring-divider"
           >
-            <img
-              src={editorial.ronitMoment}
-              alt=""
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
+            {reduced ? (
+              <img
+                src={editorial.ronitMoment}
+                alt=""
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <video
+                src={editorial.ronitVideo}
+                poster={editorial.ronitVideoPoster}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-hidden
+                className="h-full w-full object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-ink-night/30 via-transparent to-transparent" />
           </motion.div>
         </Reveal>

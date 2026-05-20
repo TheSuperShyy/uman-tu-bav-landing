@@ -31,7 +31,7 @@ export default function Gallery() {
           </p>
         </Reveal>
         <Reveal delay={0.08}>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-balance">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-balance text-ink-deep">
             הסיפור בתמונות
           </h2>
         </Reveal>

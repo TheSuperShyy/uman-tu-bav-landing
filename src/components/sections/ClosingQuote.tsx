@@ -34,7 +34,17 @@ export default function ClosingQuote() {
 
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-night/30 via-ink-night/55 to-ink-night/85"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-night/75 via-ink-night/82 to-ink-night/95"
+      />
+
+      {/* Centered scrim behind the quote */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 55% at 50% 50%, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 55%, transparent 85%)',
+        }}
       />
 
       <div className="relative mx-auto max-w-2xl text-center px-6">
