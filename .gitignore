@@ -6,6 +6,16 @@ dist-ssr
 .vite
 *.tsbuildinfo
 
+# Raw source media (HEIC/MOV from the client, ~268MB).
+# Optimized + renamed versions live in public/images and public/videos.
+רונית -דף נחיתה אומן/
+assets-source/
+.tmp-media/
+*.heic
+*.HEIC
+*.mov
+*.MOV
+
 # editor
 .vscode/*
 !.vscode/extensions.json

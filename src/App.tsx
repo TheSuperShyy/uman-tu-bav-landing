@@ -1,6 +1,6 @@
 import ScrollProgress from './components/ui/ScrollProgress';
 import Divider from './components/ui/Divider';
-import Marquee from './components/ui/Marquee';
+import PhotoMarquee from './components/ui/PhotoMarquee';
 import Hero from './components/sections/Hero';
 import Intro from './components/sections/Intro';
 import PriceBlock from './components/sections/PriceBlock';
@@ -10,23 +10,35 @@ import WhoFor from './components/sections/WhoFor';
 import ImportantInfo from './components/sections/ImportantInfo';
 import Payment from './components/sections/Payment';
 import Itinerary from './components/sections/Itinerary';
+import Gallery from './components/sections/Gallery';
+import CinematicMoment from './components/sections/CinematicMoment';
 import LeadForm from './components/sections/LeadForm';
 import ClosingQuote from './components/sections/ClosingQuote';
 import Footer from './components/sections/Footer';
-import { marquee } from './content/copy.he';
+import { editorial } from './content/media';
 
 export default function App() {
   return (
     <main className="min-h-screen overflow-x-hidden">
       <ScrollProgress />
       <Hero />
-      <Marquee items={marquee} />
+      <PhotoMarquee photos={editorial.marqueeStrip} height="md" />
       <Intro />
-      <Divider />
+      <CinematicMoment
+        image={editorial.shofarTall}
+        kicker="ביום הכי מסוגל לזיווגים"
+        caption="ט״ו באב באומן — תאריך אחד, שינוי של שנה"
+        height="standard"
+      />
       <PriceBlock />
       <Divider />
       <WhyTuBav />
-      <Divider />
+      <CinematicMoment
+        image={editorial.umanGate}
+        kicker="ציון רבי נחמן · אומן"
+        caption="המקום בו תפילות שומעים אחרת"
+        height="tall"
+      />
       <WhatAwaits />
       <Divider />
       <WhoFor />
@@ -36,9 +48,14 @@ export default function App() {
       <Payment />
       <Divider />
       <Itinerary />
-      <Divider />
+      <CinematicMoment
+        image={editorial.challahTable}
+        kicker="הפקה של פעם בשנה"
+        caption="כל פרט קטן נעטף באהבה ובאור"
+        height="standard"
+      />
+      <Gallery />
       <LeadForm />
-      <Divider />
       <ClosingQuote />
       <Footer />
     </main>

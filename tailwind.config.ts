@@ -14,7 +14,10 @@ export default {
         'button-text': '#eeecea',
         'ink-deep': '#6b4532',
         'ink-body': '#2d2d2d',
+        'ink-night': '#1a1612',
+        ivory: '#faf6ee',
         divider: '#efe5dc',
+        gold: '#c5a572',
       },
       fontFamily: {
         sans: ['Assistant', 'system-ui', 'sans-serif'],

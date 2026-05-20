@@ -1,25 +1,49 @@
-import { motion, useReducedMotion } from 'framer-motion';
-import Section from '../layout/Section';
+import { useRef } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Reveal from '../motion/Reveal';
-import FloatingDecor from '../ui/FloatingDecor';
 import { closingQuote } from '../../content/copy.he';
+import { editorial } from '../../content/media';
 
 export default function ClosingQuote() {
+  const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const scale = useTransform(scrollYProgress, [0, 1], [1.08, 1]);
+  const yShift = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   return (
-    <Section bg="bg-hero" className="relative overflow-hidden">
-      <FloatingDecor shape="sparkle" size={28} className="absolute top-10 start-[10%]" delay={0} opacity={0.3} />
-      <FloatingDecor shape="sparkle" size={20} className="absolute bottom-10 end-[12%]" delay={2} opacity={0.28} />
-      <FloatingDecor shape="heart" size={22} className="absolute top-1/2 start-[6%]" delay={3.5} opacity={0.22} />
+    <section
+      ref={ref}
+      className="relative isolate min-h-[70svh] overflow-hidden flex items-center justify-center text-ivory"
+    >
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 -z-20"
+        style={{ scale: reduced ? 1 : scale, y: reduced ? 0 : yShift }}
+      >
+        <img
+          src={editorial.closingBackdrop}
+          alt=""
+          loading="lazy"
+          className="h-full w-full object-cover"
+        />
+      </motion.div>
 
-      <div className="mx-auto max-w-2xl text-center">
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-night/30 via-ink-night/55 to-ink-night/85"
+      />
+
+      <div className="relative mx-auto max-w-2xl text-center px-6">
         <Reveal>
           <motion.p
-            className="relative text-2xl sm:text-3xl italic font-medium text-cream text-balance"
+            className="relative text-2xl sm:text-4xl italic font-medium text-balance leading-snug"
             style={{
               backgroundImage:
-                'linear-gradient(120deg, rgba(255,245,239,0.95) 0%, rgba(255,245,239,1) 40%, rgba(255,255,255,1) 50%, rgba(255,245,239,1) 60%, rgba(255,245,239,0.95) 100%)',
+                'linear-gradient(120deg, rgba(250,246,238,0.95) 0%, rgba(250,246,238,1) 40%, #ffffff 50%, rgba(250,246,238,1) 60%, rgba(250,246,238,0.95) 100%)',
               backgroundSize: '200% 100%',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
@@ -29,13 +53,13 @@ export default function ClosingQuote() {
             transition={
               reduced
                 ? undefined
-                : { duration: 8, ease: 'linear', repeat: Infinity }
+                : { duration: 9, ease: 'linear', repeat: Infinity }
             }
           >
             “{closingQuote.text}”
           </motion.p>
         </Reveal>
       </div>
-    </Section>
+    </section>
   );
 }
