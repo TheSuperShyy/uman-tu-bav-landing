@@ -68,25 +68,9 @@ export default function LeadForm() {
               <input id="fullName" name="fullName" className={fieldClass} autoComplete="name" />
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-5">
-              <div>
-                <label htmlFor="age" className={labelClass}>{f.age}</label>
-                <input id="age" name="age" type="number" inputMode="numeric" className={fieldClass} />
-              </div>
-              <div>
-                <label htmlFor="phone" className={labelClass}>{f.phone}</label>
-                <input id="phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" className={fieldClass} />
-              </div>
-            </div>
-
             <div>
-              <label htmlFor="workAndRole" className={labelClass}>{f.workAndRole}</label>
-              <input id="workAndRole" name="workAndRole" className={fieldClass} />
-            </div>
-
-            <div>
-              <label htmlFor="city" className={labelClass}>{f.city}</label>
-              <input id="city" name="city" className={fieldClass} autoComplete="address-level2" />
+              <label htmlFor="age" className={labelClass}>{f.age}</label>
+              <input id="age" name="age" type="number" inputMode="numeric" className={fieldClass} />
             </div>
 
             <RadioGroup name="company" label={f.company.label} options={f.company.options} />

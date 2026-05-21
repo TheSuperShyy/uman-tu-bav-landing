@@ -56,7 +56,7 @@ export const price = {
 // lives right before the LeadForm (see Payment.tsx).
 export const priceTeaser = {
   kicker: 'מספר המקומות מוגבל ✨',
-  headline: 'השקעה אחת. שינוי של שנה.',
+  headline: 'שינוי לחיים',
   body: 'יש מסעות שמשנים את המסלול. ויש כאלה שמשנים את הלב.',
   cta: 'אני רוצה לקרוא הכל ↓',
 } as const;
@@ -146,9 +146,6 @@ export const leadForm = {
   fields: {
     fullName: 'שם מלא',
     age: 'גיל',
-    workAndRole: 'מקום עבודה ותפקיד',
-    phone: 'טלפון',
-    city: 'עיר',
     company: {
       label: 'מגיעה לבד / עם חברה',
       options: ['לבד', 'עם חברה'] as const,
