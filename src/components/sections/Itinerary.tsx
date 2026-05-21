@@ -18,17 +18,17 @@ export default function Itinerary() {
         </Reveal>
       </div>
 
-      <Reveal as="ul" stagger className="relative grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2">
+      <Reveal as="ul" stagger className="relative grid gap-3 sm:gap-5 grid-cols-2">
         {itinerary.items.map((item, i) => (
           <Reveal.Item as="li" key={i}>
-            <Card className="h-full flex items-start gap-3">
+            <Card className="h-full flex items-start gap-2 sm:gap-3 !p-3 sm:!p-6">
               <span
                 aria-hidden
-                className="mt-0.5 inline-flex h-7 w-7 flex-none items-center justify-center rounded-full bg-ink-deep/10 text-ink-deep font-bold text-sm"
+                className="mt-0.5 inline-flex h-6 w-6 sm:h-7 sm:w-7 flex-none items-center justify-center rounded-full bg-ink-deep/10 text-ink-deep font-bold text-xs sm:text-sm"
               >
                 {i + 1}
               </span>
-              <span className="text-lg leading-relaxed text-ink-body text-pretty">
+              <span className="text-sm sm:text-lg leading-snug sm:leading-relaxed text-ink-body text-pretty">
                 {item}
               </span>
             </Card>

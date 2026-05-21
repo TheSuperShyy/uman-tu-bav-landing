@@ -6,6 +6,10 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Framer Motion's useScroll({ target }) warns when its default
+       scroll container (<html>) is position: static. Set it explicitly
+       so the warning clears and offset calc is reliable. */
+    position: relative;
   }
   body {
     @apply bg-cream text-ink-body font-sans antialiased;

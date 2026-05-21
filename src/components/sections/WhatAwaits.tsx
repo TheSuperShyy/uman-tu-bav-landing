@@ -18,10 +18,10 @@ export default function WhatAwaits() {
         </Reveal>
       </div>
 
-      <Reveal as="ul" stagger className="relative grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <Reveal as="ul" stagger className="relative grid gap-3 sm:gap-5 grid-cols-2 lg:grid-cols-3">
         {whatAwaits.items.map((item, i) => (
           <Reveal.Item as="li" key={i}>
-            <Card className="h-full text-center text-base sm:text-lg leading-relaxed">
+            <Card className="h-full text-center text-sm sm:text-lg leading-snug sm:leading-relaxed !p-3 sm:!p-6">
               {item}
             </Card>
           </Reveal.Item>
