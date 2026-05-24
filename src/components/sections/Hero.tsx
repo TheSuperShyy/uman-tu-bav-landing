@@ -68,7 +68,7 @@ export default function Hero() {
         }}
       />
 
-      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-32 sm:pt-40 lg:pt-44 pb-24">
+      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-32 sm:pt-36 lg:pt-40 pb-24">
         <Reveal>
           <p
             style={{ textShadow: TEXT_SHADOW }}
@@ -130,7 +130,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 0.8 }}
-          className="absolute bottom-8 inset-x-0 mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-cream/60 bg-ink-night/30 text-cream shadow-cta backdrop-blur"
+          className="absolute bottom-8 inset-x-0 mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center bg-transparent border-0 text-cream"
         >
           <motion.svg
             viewBox="0 0 24 24"
