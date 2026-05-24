@@ -68,7 +68,7 @@ export default function Hero() {
         }}
       />
 
-      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-40 sm:pt-48 lg:pt-52 pb-24">
+      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-32 sm:pt-40 lg:pt-44 pb-24">
         <Reveal>
           <p
             style={{ textShadow: TEXT_SHADOW }}
