@@ -1,5 +1,6 @@
 import ScrollProgress from './components/ui/ScrollProgress';
 import LogoBadge from './components/ui/LogoBadge';
+import SplashScreen from './components/ui/SplashScreen';
 import Divider from './components/ui/Divider';
 import PhotoMarquee from './components/ui/PhotoMarquee';
 import Hero from './components/sections/Hero';
@@ -23,7 +24,8 @@ import { editorial } from './content/media';
 
 export default function App() {
   return (
-    <main className="min-h-screen overflow-x-hidden">
+    <main className="min-h-screen overflow-x-clip">
+      <SplashScreen />
       <ScrollProgress />
       <LogoBadge />
       <Hero />

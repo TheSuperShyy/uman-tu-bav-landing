@@ -15,6 +15,11 @@
     @apply bg-cream text-ink-body font-sans antialiased;
     font-size: 18px;
     line-height: 1.7;
+    /* Belt-and-suspenders against horizontal overflow: clip (not
+       hidden) on body so any wide child gets clipped without creating
+       a second scroll container. Same fix lives on <main>; this catches
+       anything outside the main tree (portals, fixed elements). */
+    overflow-x: clip;
   }
   /* Heading color is NOT set in base — each section picks its own
      (text-ink-deep on cream, text-ivory on photo overlays). A global
@@ -35,5 +40,13 @@
   }
   .text-pretty {
     text-wrap: pretty;
+  }
+  /* Tell the browser to skip layout + paint for sections that are far
+     out of the viewport. Massive perf win on long pages (Gallery,
+     VideoGallery, etc.). Pair with contain-intrinsic-size so the
+     scrollbar still calculates correctly. */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 900px;
   }
 }

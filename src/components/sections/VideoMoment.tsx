@@ -48,7 +48,7 @@ export default function VideoMoment({
         style={{ y: reduced ? 0 : y, scale: reduced ? 1 : scale }}
       >
         {reduced ? (
-          <img src={poster} alt="" className="h-full w-full object-cover" loading="lazy" />
+          <img src={poster} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" />
         ) : (
           <video
             src={src}

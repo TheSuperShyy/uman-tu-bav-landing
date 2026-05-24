@@ -35,7 +35,10 @@ export const editorial = {
   // Closing quote backdrop
   closingBackdrop: photo(28),
 
-  // Photo marquee strip
+  // Photo marquee strip — mirrors the full gallery so every photo
+  // appears in both places. Curated picks lead so the strongest shots
+  // are visible during the first scroll pass; the rest extend the
+  // infinite loop.
   marqueeStrip: [
     photo(7),
     photo(15),
@@ -47,22 +50,67 @@ export const editorial = {
     photo(25),
     photo(28),
     photo(3),
+    photo(1),
+    photo(2),
+    photo(4),
+    photo(5),
+    photo(6),
+    photo(8),
+    photo(9),
+    photo(10),
+    photo(11),
+    photo(14),
+    photo(16),
+    photo(17),
+    photo(19),
+    photo(21),
+    photo(23),
+    photo(24),
+    photo(26),
+    photo(27),
+    photo(30),
+    photo(31),
+    photo(32),
+    photo(33),
   ],
 
-  // Masonry gallery (between Itinerary and LeadForm)
+  // Masonry gallery (between Itinerary and LeadForm). All 32 optimized
+  // photos in the public/images folder except photo-29 (brand logo,
+  // shown via LogoBadge/SplashScreen). Curated picks lead so the
+  // strongest shots open the gallery; the rest fill out by number.
   gallery: [
     photo(1),
     photo(13),
     photo(20),
+    photo(30),
     photo(22),
     photo(15),
+    photo(31),
     photo(18),
     photo(12),
+    photo(32),
     photo(28),
     photo(3),
+    photo(33),
     photo(25),
     photo(23),
     photo(7),
+    photo(2),
+    photo(4),
+    photo(5),
+    photo(6),
+    photo(8),
+    photo(9),
+    photo(10),
+    photo(11),
+    photo(14),
+    photo(16),
+    photo(17),
+    photo(19),
+    photo(21),
+    photo(24),
+    photo(26),
+    photo(27),
   ],
 
   // Hero background video — white roses, Uman Hilula 2025. Falls back
@@ -75,7 +123,7 @@ export const editorial = {
   ronitVideo: video(4),
   ronitVideoPoster: videoPoster(4),
 
-  // Round-2 client videos (10 clips, optimized via scripts/optimize-new-media.mjs).
+  // Round-2 client videos (20 clips, optimized via scripts/optimize-new-media.mjs).
   // Powers the VideoGallery section.
   videoGallery: [
     { src: video(7), poster: videoPoster(7) },
@@ -88,6 +136,16 @@ export const editorial = {
     { src: video(14), poster: videoPoster(14) },
     { src: video(15), poster: videoPoster(15) },
     { src: video(16), poster: videoPoster(16) },
+    { src: video(17), poster: videoPoster(17) },
+    { src: video(18), poster: videoPoster(18) },
+    { src: video(19), poster: videoPoster(19) },
+    { src: video(20), poster: videoPoster(20) },
+    { src: video(21), poster: videoPoster(21) },
+    { src: video(22), poster: videoPoster(22) },
+    { src: video(23), poster: videoPoster(23) },
+    { src: video(24), poster: videoPoster(24) },
+    { src: video(25), poster: videoPoster(25) },
+    { src: video(26), poster: videoPoster(26) },
   ],
 
   // Floating brand badge — see LogoBadge.tsx.

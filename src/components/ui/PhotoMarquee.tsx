@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useReducedMotion, useInView } from 'framer-motion';
 
 type Props = {
   photos: readonly string[];
@@ -14,19 +15,26 @@ const H = {
 
 export default function PhotoMarquee({ photos, speed = 50, height = 'md' }: Props) {
   const reduced = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  // amount: 0 = run if any pixel is on-screen; margin: 200px prevents
+  // pausing while the marquee is only briefly out of view during fast
+  // scrolls. Pausing off-screen frees the compositor from animating
+  // a 60+image transform when the user is reading other sections.
+  const inView = useInView(ref, { amount: 0, margin: '200px' });
   const loop = [...photos, ...photos];
 
   return (
     <div
+      ref={ref}
       dir="ltr"
       aria-hidden
       className="relative overflow-hidden bg-ink-night py-3"
     >
       <motion.div
         className="flex w-max gap-3 sm:gap-4 will-change-transform"
-        animate={reduced ? undefined : { x: ['0%', '-50%'] }}
+        animate={reduced || !inView ? undefined : { x: ['0%', '-50%'] }}
         transition={
-          reduced
+          reduced || !inView
             ? undefined
             : { duration: speed, ease: 'linear', repeat: Infinity, repeatType: 'loop' }
         }
@@ -40,6 +48,7 @@ export default function PhotoMarquee({ photos, speed = 50, height = 'md' }: Prop
               src={src}
               alt=""
               loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover"
             />
           </div>

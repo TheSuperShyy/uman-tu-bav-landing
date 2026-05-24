@@ -28,6 +28,7 @@ export default function ClosingQuote() {
           src={editorial.closingBackdrop}
           alt=""
           loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover"
         />
       </motion.div>

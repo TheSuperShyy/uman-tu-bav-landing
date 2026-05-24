@@ -11,7 +11,7 @@
 //
 // Reuses the same ffmpeg + sharp pipeline as optimize-media.mjs.
 
-import { mkdir, stat, copyFile, rm, readFile } from 'node:fs/promises';
+import { mkdir, stat, copyFile, rm, readFile, access } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { join, extname } from 'node:path';
@@ -29,9 +29,28 @@ const VID_MAX_HEIGHT = 720;
 const VID_CRF = 26;
 const VID_PRESET = 'medium';
 
+const IMG_MAX_WIDTH = 1920;
+const IMG_QUALITY = 78;
+
 const LOGO_SRC = { dir: SRC, name: 'ronit-logo.jpeg' };
 
+// Round-2 photos: the 5 May-24 additions that the original
+// optimize-media.mjs pass didn't see. Existing photo-01..28.webp stay
+// untouched; these start at index 29 so the gallery just appends.
+const PHOTOS = [
+  // 29192236...jpg is the decorative brand logo — kept out of the
+  // gallery (renders via LogoBadge/SplashScreen instead). The optimized
+  // file at public/images/photo-29.webp is left intact so it can be
+  // repurposed later without re-encoding.
+  { dir: SRC, name: '802b1a8b-f3d6-465c-9eb9-fea8f242ca6a.jpg', out: 30 },
+  { dir: SRC, name: 'd5328132-27e8-4143-9e38-72159f2f7047.jpg', out: 31 },
+  { dir: SRC, name: 'd9e0ae00-ba72-429d-84f8-6d07f401ce91.jpg', out: 32 },
+  { dir: SRC, name: 'WhatsApp Image 2026-05-20 at 19.13.28.jpeg', out: 33 },
+];
+
 const VIDEOS = [
+  // First batch (07–16) — already in public/videos. Listed here so a
+  // full re-run reproduces them; the script is idempotent (overwrites).
   { dir: SRC_SUB, name: 'WhatsApp Video 2026-05-19 at 09.45.01.mp4', out: 7 },
   { dir: SRC_SUB, name: 'WhatsApp Video 2026-05-19 at 09.45.02.mp4', out: 8 },
   { dir: SRC_SUB, name: 'WhatsApp Video 2026-05-19 at 09.45.02 (1).mp4', out: 9 },
@@ -42,6 +61,18 @@ const VIDEOS = [
   { dir: SRC, name: 'WhatsApp Video 2026-05-20 at 19.13.30.mp4', out: 14 },
   { dir: SRC, name: 'WhatsApp Video 2026-05-20 at 19.13.44 (1).mp4', out: 15 },
   { dir: SRC, name: 'WhatsApp Video 2026-05-20 at 19.14.02.mp4', out: 16 },
+  // Second batch (17–26) — the rest of the client folder so every
+  // clip surfaces in VideoGallery.
+  { dir: SRC, name: 'WhatsApp Video 2026-05-20 at 18.35.21.mp4', out: 17 },
+  { dir: SRC, name: 'WhatsApp Video 2026-05-20 at 19.13.22.mp4', out: 18 },
+  { dir: SRC, name: 'WhatsApp Video 2026-05-20 at 19.14.06.mp4', out: 19 },
+  { dir: SRC, name: 'WhatsApp Video 2026-05-20 at 19.14.10.mp4', out: 20 },
+  { dir: SRC, name: '1ecf506d-1c26-4932-8246-df208a82ad55.mp4', out: 21 },
+  { dir: SRC, name: '61115f72-1a55-4e38-98d7-a68b72e52343.mp4', out: 22 },
+  { dir: SRC, name: 'IMG_3530.mov', out: 23 },
+  { dir: SRC, name: 'copy_3DA27086-D882-4E73-B374-26E8457A2485.mov', out: 24 },
+  { dir: SRC, name: 'copy_522B4B24-0BD9-4EED-9FC7-22285BDE8A3F.mov', out: 25 },
+  { dir: SRC, name: 'copy_48882ABB-431F-4C7A-918A-D7960C495054.mov', out: 26 },
 ];
 
 function pad(n) {
@@ -82,6 +113,19 @@ async function optimizeLogo() {
   const webpStat = await stat(webpOut);
   const pngStat = await stat(pngOut);
   return { webp: webpStat.size, png: pngStat.size };
+}
+
+async function optimizePhoto(stagedPath, outIdx) {
+  const outName = `photo-${pad(outIdx)}.webp`;
+  const outPath = join(OUT_IMG, outName);
+  const buf = await readFile(stagedPath);
+  await sharp(buf, { failOn: 'none' })
+    .rotate() // honor EXIF orientation so portrait phone shots stay upright
+    .resize({ width: IMG_MAX_WIDTH, withoutEnlargement: true, fit: 'inside' })
+    .webp({ quality: IMG_QUALITY, effort: 4 })
+    .toFile(outPath);
+  const outStat = await stat(outPath);
+  return { bytes: outStat.size, outName };
 }
 
 async function optimizeVideo(stagedPath, outIdx) {
@@ -142,9 +186,45 @@ async function main() {
     console.log(`  LOGO FAILED — ${err.message?.split('\n')[0] ?? err}`);
   }
 
-  console.log(`\nOptimizing ${VIDEOS.length} videos ...`);
+  // --force re-encodes everything; default skips outputs that already
+  // exist so adding new entries doesn't redo the whole batch.
+  const force = process.argv.includes('--force');
+
+  console.log(`\nOptimizing ${PHOTOS.length} photos (force=${force}) ...`);
+  for (const p of PHOTOS) {
+    const outPath = join(OUT_IMG, `photo-${pad(p.out)}.webp`);
+    if (!force) {
+      try {
+        await access(outPath);
+        console.log(`  [photo-${pad(p.out)}] exists — skip`);
+        continue;
+      } catch {
+        // not present, fall through
+      }
+    }
+    try {
+      const stagedPath = await stageFile(p.dir, p.name, `img-${pad(p.out)}.jpg`);
+      process.stdout.write(`  [photo-${pad(p.out)}] ${p.name.slice(0, 50)}... `);
+      const info = await optimizePhoto(stagedPath, p.out);
+      console.log(`${(info.bytes / 1024).toFixed(0)}KB`);
+    } catch (err) {
+      console.log(`FAILED — ${err.message?.split('\n')[0] ?? err}`);
+    }
+  }
+
+  console.log(`\nOptimizing ${VIDEOS.length} videos (force=${force}) ...`);
   for (const v of VIDEOS) {
     const stagedName = `vid-${pad(v.out)}.mp4`;
+    const outPath = join(OUT_VID, `video-${pad(v.out)}.mp4`);
+    if (!force) {
+      try {
+        await access(outPath);
+        console.log(`  [video-${pad(v.out)}] exists — skip`);
+        continue;
+      } catch {
+        // not present, fall through to encode
+      }
+    }
     try {
       const stagedPath = await stageFile(v.dir, v.name, stagedName);
       process.stdout.write(`  [video-${pad(v.out)}] ${v.name.slice(0, 50)}... `);

@@ -16,6 +16,7 @@ export default function LetterFromRonit() {
               src={letterFromRonit.imageFallback}
               alt={letterFromRonit.alt}
               loading="lazy"
+              decoding="async"
               className="block w-full h-auto rounded-2xl"
             />
           </picture>
