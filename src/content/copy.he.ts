@@ -30,7 +30,7 @@ export const hero = {
   spotlight: 'אור הצדיק רונית ברש',
   title: 'הזיווג שלך מתחיל בט״ו באב הזה 💍',
   subtitle: 'המסע הנשי שיכול לשנות לך את השנה',
-  countdownKicker: 'הספירה לאומן',
+  countdownKicker: 'הטיסה ממריאה בעוד ↓',
   cta: 'אני רוצה לשמוע עוד',
 } as const;
 

@@ -67,7 +67,7 @@ export default function Hero() {
         }}
       />
 
-      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center py-24">
+      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-28 sm:pt-32 pb-24">
         <Reveal>
           <p
             style={{ textShadow: TEXT_SHADOW }}
@@ -113,7 +113,7 @@ export default function Hero() {
           <Button
             pulse
             onClick={() =>
-              document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })
+              window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' })
             }
           >
             {hero.cta}

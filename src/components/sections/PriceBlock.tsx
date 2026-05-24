@@ -21,9 +21,7 @@ export default function PriceBlock() {
           <Button
             pulse
             onClick={() =>
-              document
-                .getElementById('price-reveal')
-                ?.scrollIntoView({ behavior: 'smooth' })
+              window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' })
             }
           >
             {priceTeaser.cta}
