@@ -26,6 +26,7 @@ export default function PhotoMarquee({ photos, speed = 50, height = 'md' }: Prop
   return (
     <div
       ref={ref}
+      data-header-theme="dark"
       dir="ltr"
       aria-hidden
       className="relative overflow-hidden bg-ink-night py-3"

@@ -22,6 +22,7 @@ export default function Hero() {
   return (
     <header
       ref={ref}
+      data-header-theme="dark"
       className="relative isolate min-h-[100svh] overflow-hidden text-ivory"
     >
       <motion.div
@@ -67,7 +68,7 @@ export default function Hero() {
         }}
       />
 
-      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-28 sm:pt-32 pb-24">
+      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-40 sm:pt-48 lg:pt-52 pb-24">
         <Reveal>
           <p
             style={{ textShadow: TEXT_SHADOW }}

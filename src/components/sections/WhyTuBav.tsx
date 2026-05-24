@@ -20,6 +20,7 @@ export default function WhyTuBav() {
   return (
     <section
       ref={ref}
+      data-header-theme="dark"
       className="relative isolate overflow-hidden text-ivory min-h-[90svh] flex items-center"
     >
       <motion.div

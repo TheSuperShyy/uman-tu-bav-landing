@@ -17,6 +17,7 @@ export default function ClosingQuote() {
   return (
     <section
       ref={ref}
+      data-header-theme="dark"
       className="relative isolate min-h-[70svh] overflow-hidden flex items-center justify-center text-ivory"
     >
       <motion.div

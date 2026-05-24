@@ -133,7 +133,7 @@ export default function VideoGallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
-    <section className="bg-cream-alt py-16 sm:py-20 lg:py-24 cv-auto">
+    <section data-header-theme="light" className="bg-cream-alt py-16 sm:py-20 lg:py-24 cv-auto">
       {/* Heading stays within the standard reading-width container —
           centered prose is more comfortable at ~906px. */}
       <Container>

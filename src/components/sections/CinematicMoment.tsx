@@ -40,6 +40,7 @@ export default function CinematicMoment({
   return (
     <section
       ref={ref}
+      data-header-theme="dark"
       className={`relative isolate overflow-hidden text-ivory ${HEIGHTS[height]} flex items-center`}
     >
       <motion.div

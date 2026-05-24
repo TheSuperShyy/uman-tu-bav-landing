@@ -3,7 +3,7 @@ import { footer } from '../../content/copy.he';
 
 export default function Footer() {
   return (
-    <footer className="bg-ink-deep text-cream/85">
+    <footer data-header-theme="dark" className="bg-ink-deep text-cream/85">
       <Container>
         <div className="flex flex-col items-center gap-2 py-10 text-center">
           <p className="text-lg font-semibold text-cream">{footer.brand}</p>
