@@ -90,25 +90,55 @@ async function stageFile(srcDir, srcName, stagedName) {
 }
 
 async function optimizeLogo() {
-  // Logo: stage to ASCII (sharp is fine with Hebrew but be safe), then
-  // resize to a small badge and output both WebP and PNG fallback.
+  // Logo: stage, resize, then knock out the white background so the
+  // mark appears directly on whatever surface it's placed on.
+  //
+  // The source is a JPEG with a baked-in white card behind the gold
+  // emblem. We use luminance-based alpha (not a binary threshold) so
+  // the curly serifs of the mark stay smoothly anti-aliased instead
+  // of looking pixelated at the edges.
   const staged = await stageFile(LOGO_SRC.dir, LOGO_SRC.name, 'logo-src' + extname(LOGO_SRC.name));
   const buf = await readFile(staged);
 
   const webpOut = join(OUT_IMG, 'logo.webp');
   const pngOut = join(OUT_IMG, 'logo.png');
 
-  await sharp(buf, { failOn: 'none' })
+  // Pipeline: resize, ensure alpha, then walk pixel data and dial alpha
+  // based on perceived luminance.
+  const { data, info } = await sharp(buf, { failOn: 'none' })
     .rotate()
     .resize({ width: 256, withoutEnlargement: true, fit: 'inside' })
-    .webp({ quality: 88, effort: 4 })
-    .toFile(webpOut);
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
 
-  await sharp(buf, { failOn: 'none' })
-    .rotate()
-    .resize({ width: 256, withoutEnlargement: true, fit: 'inside' })
-    .png({ compressionLevel: 9 })
-    .toFile(pngOut);
+  const pixels = Buffer.from(data); // mutable copy
+  // Tuned for the cream-on-gold logo: pixels with luminance > 245 go
+  // fully transparent (the white card), 200–245 get a graduated alpha
+  // (anti-aliased edge pixels), and < 200 stays fully opaque (the
+  // gold mark itself).
+  const FULL_T = 245;
+  const FADE_T = 200;
+  for (let i = 0; i < pixels.length; i += 4) {
+    const r = pixels[i];
+    const g = pixels[i + 1];
+    const b = pixels[i + 2];
+    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+    if (lum >= FULL_T) {
+      pixels[i + 3] = 0;
+    } else if (lum > FADE_T) {
+      // Linear ramp from FADE_T (alpha 255) to FULL_T (alpha 0)
+      const ratio = (FULL_T - lum) / (FULL_T - FADE_T);
+      pixels[i + 3] = Math.round(ratio * 255);
+    }
+    // else: keep alpha 255 (set by ensureAlpha)
+  }
+
+  const rawIn = sharp(pixels, {
+    raw: { width: info.width, height: info.height, channels: 4 },
+  });
+  await rawIn.clone().webp({ quality: 92, effort: 4, alphaQuality: 100 }).toFile(webpOut);
+  await rawIn.clone().png({ compressionLevel: 9 }).toFile(pngOut);
 
   const webpStat = await stat(webpOut);
   const pngStat = await stat(pngOut);
