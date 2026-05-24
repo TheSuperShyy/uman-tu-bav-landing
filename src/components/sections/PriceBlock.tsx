@@ -6,7 +6,7 @@ import { priceTeaser } from '../../content/copy.he';
 
 export default function PriceBlock() {
   return (
-    <Section bg="bg-cream-alt">
+    <Section bg="bg-cream-alt" noPill>
       <Reveal>
         <div className="mx-auto max-w-2xl text-center rounded-3xl bg-white/70 ring-1 ring-divider px-8 py-12 sm:py-14 shadow-card">
           <div className="mb-5">

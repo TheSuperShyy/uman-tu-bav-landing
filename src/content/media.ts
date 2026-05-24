@@ -113,15 +113,21 @@ export const editorial = {
     photo(27),
   ],
 
-  // Hero background video — white roses, Uman Hilula 2025. Falls back
-  // to heroBackdrop photo under prefers-reduced-motion or slow networks.
-  heroVideo: video(3),
-  heroVideoPoster: videoPoster(3),
+  // Hero background video. Falls back to heroBackdrop photo under
+  // prefers-reduced-motion or slow networks.
+  heroVideo: video(24),
+  heroVideoPoster: videoPoster(24),
 
-  // VideoMoment between CinematicMoment #3 and Gallery —
-  // Ronit walking down marble stairs.
-  ronitVideo: video(4),
-  ronitVideoPoster: videoPoster(4),
+  // VideoMoment between CinematicMoment #3 and Gallery — also used by
+  // Intro's side video. Uses video-03 (the clean replacement clip); the
+  // walking-down-the-airbridge footage in video-04 is reserved for the
+  // Hero only.
+  ronitVideo: video(3),
+  ronitVideoPoster: videoPoster(3),
+
+  // Client testimonials video (single playable clip in its own section).
+  testimonialsVideo: video(27),
+  testimonialsVideoPoster: videoPoster(27),
 
   // Round-2 client videos (20 clips, optimized via scripts/optimize-new-media.mjs).
   // Powers the VideoGallery section.

@@ -2,6 +2,8 @@ import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Container from '../layout/Container';
 import Reveal from '../motion/Reveal';
+import BrandLogo from '../ui/BrandLogo';
+import CallPill from '../ui/CallPill';
 
 type Props = {
   image: string;
@@ -16,9 +18,9 @@ type Props = {
 };
 
 const HEIGHTS: Record<NonNullable<Props['height']>, string> = {
-  tall: 'min-h-[90svh]',
-  standard: 'min-h-[70svh]',
-  short: 'min-h-[55svh]',
+  tall: 'min-h-[45svh]',
+  standard: 'min-h-[35svh]',
+  short: 'min-h-[28svh]',
 };
 
 export default function CinematicMoment({
@@ -41,7 +43,7 @@ export default function CinematicMoment({
     <section
       ref={ref}
       data-header-theme="dark"
-      className={`relative isolate overflow-hidden text-ivory ${HEIGHTS[height]} flex items-center`}
+      className={`relative isolate overflow-hidden text-ivory ${HEIGHTS[height]} flex flex-col`}
     >
       <motion.div
         aria-hidden
@@ -72,38 +74,44 @@ export default function CinematicMoment({
         }}
       />
 
-      {caption && (
-        <Container className="relative text-center py-16">
-          {kicker && (
-            <Reveal>
-              <p
-                style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
-                className="text-xs sm:text-sm tracking-[0.32em] uppercase text-gold mb-5"
-              >
-                {kicker}
-              </p>
-            </Reveal>
-          )}
-          <Reveal delay={0.08}>
-            <p
-              style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)', color: '#faf6ee' }}
-              className="mx-auto max-w-2xl text-balance text-2xl sm:text-4xl lg:text-5xl font-bold leading-snug"
-            >
-              {caption}
-            </p>
-          </Reveal>
-          {flourish && (
-            <Reveal delay={0.18}>
+      <BrandLogo />
+
+      <div className="relative flex-1 flex items-center -mt-8 sm:-mt-12">
+        {caption && (
+          <Container className="relative text-center py-12 w-full">
+            {kicker && (
+              <Reveal>
+                <p
+                  style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)' }}
+                  className="text-xs sm:text-sm tracking-[0.32em] uppercase text-gold mb-5"
+                >
+                  {kicker}
+                </p>
+              </Reveal>
+            )}
+            <Reveal delay={0.08}>
               <p
                 style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)', color: '#faf6ee' }}
-                className="mt-5 italic text-base sm:text-lg"
+                className="mx-auto max-w-2xl text-balance text-2xl sm:text-4xl lg:text-5xl font-bold leading-snug"
               >
-                {flourish}
+                {caption}
               </p>
             </Reveal>
-          )}
-        </Container>
-      )}
+            {flourish && (
+              <Reveal delay={0.18}>
+                <p
+                  style={{ textShadow: '0 2px 6px rgba(0,0,0,0.7)', color: '#faf6ee' }}
+                  className="mt-5 italic text-base sm:text-lg"
+                >
+                  {flourish}
+                </p>
+              </Reveal>
+            )}
+          </Container>
+        )}
+      </div>
+
+      <CallPill theme="dark" />
     </section>
   );
 }

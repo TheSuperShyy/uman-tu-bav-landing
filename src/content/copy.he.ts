@@ -171,6 +171,12 @@ export const videoGallery = {
   subtitle: 'הצצה קצרה לאווירה — לחצי על סרטון כדי לצפות',
 } as const;
 
+export const testimonials = {
+  kicker: 'נשים שכבר טסו איתנו',
+  title: 'מה הן אומרות',
+  subtitle: 'עדויות אישיות מנשים שחזרו מהמסע — בקולן ובמילותיהן',
+} as const;
+
 export const leadForm = {
   title: 'השאירי פרטים ונחזור אלייך',
   fields: {

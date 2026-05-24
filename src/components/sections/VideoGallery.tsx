@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Container from '../layout/Container';
 import Reveal from '../motion/Reveal';
+import BrandLogo from '../ui/BrandLogo';
+import CallPill from '../ui/CallPill';
 import { videoGallery } from '../../content/copy.he';
 import { editorial } from '../../content/media';
 
@@ -133,9 +135,9 @@ export default function VideoGallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
-    <section data-header-theme="light" className="bg-cream-alt py-16 sm:py-20 lg:py-24 cv-auto">
-      {/* Heading stays within the standard reading-width container —
-          centered prose is more comfortable at ~906px. */}
+    <section data-header-theme="light" className="bg-cream-alt pt-4 sm:pt-6 pb-4 sm:pb-6 cv-auto">
+      <BrandLogo />
+      <div className="-mt-6 sm:-mt-8 pt-0 pb-8 sm:pb-12 lg:pb-16">
       <Container>
         <div className="text-center mb-10 lg:mb-14">
           <Reveal>
@@ -171,6 +173,8 @@ export default function VideoGallery() {
           ))}
         </Reveal>
       </div>
+      </div>
+      <CallPill theme="light" />
     </section>
   );
 }

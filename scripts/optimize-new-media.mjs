@@ -73,6 +73,12 @@ const VIDEOS = [
   { dir: SRC, name: 'copy_3DA27086-D882-4E73-B374-26E8457A2485.mov', out: 24 },
   { dir: SRC, name: 'copy_522B4B24-0BD9-4EED-9FC7-22285BDE8A3F.mov', out: 25 },
   { dir: SRC, name: 'copy_48882ABB-431F-4C7A-918A-D7960C495054.mov', out: 26 },
+  // Round-3 client follow-ups.
+  // Clean hero clip (replaces the previous video-03 which had baked-in
+  // "Uman Hilula 2025 With Ronit Barash" overlay text).
+  { dir: SRC, name: 'video-replacement.mp4', out: 3 },
+  // Client testimonials clip — used by the new Testimonials section.
+  { dir: SRC, name: 'testimonials.mp4', out: 27 },
 ];
 
 function pad(n) {

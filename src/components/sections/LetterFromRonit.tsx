@@ -4,7 +4,7 @@ import { letterFromRonit } from '../../content/copy.he';
 
 export default function LetterFromRonit() {
   return (
-    <Section bg="bg-cream-alt">
+    <Section bg="bg-cream-alt" noLogo>
       <Reveal>
         <figure className="mx-auto max-w-xl rounded-3xl bg-cream p-5 sm:p-8 shadow-card ring-1 ring-divider">
           <figcaption className="mb-5 text-center text-xs sm:text-sm uppercase tracking-[0.32em] text-ink-deep/60">

@@ -2,6 +2,8 @@ import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Container from '../layout/Container';
 import Reveal from '../motion/Reveal';
+import BrandLogo from '../ui/BrandLogo';
+import CallPill from '../ui/CallPill';
 import { whyTuBav } from '../../content/copy.he';
 import { editorial } from '../../content/media';
 
@@ -21,7 +23,7 @@ export default function WhyTuBav() {
     <section
       ref={ref}
       data-header-theme="dark"
-      className="relative isolate overflow-hidden text-ivory min-h-[90svh] flex items-center"
+      className="relative isolate overflow-hidden text-ivory min-h-[110svh] flex flex-col"
     >
       <motion.div
         aria-hidden
@@ -50,7 +52,9 @@ export default function WhyTuBav() {
         }}
       />
 
-      <Container className="relative text-center py-20">
+      <BrandLogo />
+
+      <Container className="relative text-center flex-1 flex flex-col justify-center py-12 -mt-20 sm:-mt-28">
         <Reveal>
           <h2
             style={{ textShadow: TEXT_SHADOW, color: '#faf6ee' }}
@@ -90,6 +94,8 @@ export default function WhyTuBav() {
           ))}
         </Reveal>
       </Container>
+
+      <CallPill theme="dark" />
     </section>
   );
 }

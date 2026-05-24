@@ -1,5 +1,4 @@
 import ScrollProgress from './components/ui/ScrollProgress';
-import SiteHeader from './components/ui/SiteHeader';
 import SplashScreen from './components/ui/SplashScreen';
 import Divider from './components/ui/Divider';
 import PhotoMarquee from './components/ui/PhotoMarquee';
@@ -17,6 +16,7 @@ import Gallery from './components/sections/Gallery';
 import CinematicMoment from './components/sections/CinematicMoment';
 import VideoMoment from './components/sections/VideoMoment';
 import VideoGallery from './components/sections/VideoGallery';
+import Testimonials from './components/sections/Testimonials';
 import LeadForm from './components/sections/LeadForm';
 import ClosingQuote from './components/sections/ClosingQuote';
 import Footer from './components/sections/Footer';
@@ -26,7 +26,6 @@ export default function App() {
   return (
     <main className="min-h-screen overflow-x-clip">
       <SplashScreen />
-      <SiteHeader />
       <ScrollProgress />
       <Hero />
       <PhotoMarquee photos={editorial.marqueeStrip} height="md" />
@@ -60,6 +59,7 @@ export default function App() {
         height="standard"
       />
       <VideoGallery />
+      <Testimonials />
       <VideoMoment
         src={editorial.ronitVideo}
         poster={editorial.ronitVideoPoster}

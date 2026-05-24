@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Reveal from '../motion/Reveal';
+import BrandLogo from '../ui/BrandLogo';
+import CallPill from '../ui/CallPill';
 import { closingQuote } from '../../content/copy.he';
 import { editorial } from '../../content/media';
 
@@ -18,7 +20,7 @@ export default function ClosingQuote() {
     <section
       ref={ref}
       data-header-theme="dark"
-      className="relative isolate min-h-[70svh] overflow-hidden flex items-center justify-center text-ivory"
+      className="relative isolate min-h-[60svh] overflow-hidden flex flex-col text-ivory"
     >
       <motion.div
         aria-hidden
@@ -49,7 +51,9 @@ export default function ClosingQuote() {
         }}
       />
 
-      <div className="relative mx-auto max-w-2xl text-center px-6">
+      <BrandLogo />
+
+      <div className="relative mx-auto max-w-2xl text-center px-6 flex-1 flex items-center justify-center">
         <Reveal>
           <motion.p
             className="relative text-2xl sm:text-4xl italic font-medium text-balance leading-snug"
@@ -72,6 +76,8 @@ export default function ClosingQuote() {
           </motion.p>
         </Reveal>
       </div>
+
+      <CallPill theme="dark" />
     </section>
   );
 }

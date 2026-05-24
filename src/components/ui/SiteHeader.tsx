@@ -3,11 +3,12 @@ import { editorial } from '../../content/media';
 import { footer } from '../../content/copy.he';
 
 // Sticky transparent chrome — logo floats at the top, call-pill floats
-// at the bottom. The pill restyles each time it crosses a section
-// boundary so it always reads against the background it's sitting on.
-// Section components emit a `data-header-theme="dark"|"light"` attribute
-// (the Section primitive derives it from its `bg` prop; full-bleed photo
-// sections — Hero, CinematicMoment, VideoMoment, etc. — set it manually).
+// at the bottom, both visible on every section. The pill restyles each
+// time it crosses a section boundary so it always reads against the
+// background it's sitting on. Section components emit a
+// `data-header-theme="dark"|"light"` attribute (the Section primitive
+// derives it from its `bg` prop; full-bleed photo sections — Hero,
+// CinematicMoment, VideoMoment, etc. — set it manually).
 type Theme = 'dark' | 'light';
 
 const PILL_BOTTOM_OFFSET = 80; // approx px above viewport bottom where the pill sits

@@ -6,6 +6,8 @@ import Button from '../ui/Button';
 import Container from '../layout/Container';
 import Reveal from '../motion/Reveal';
 import Countdown from '../ui/Countdown';
+import BrandLogo from '../ui/BrandLogo';
+import CallPill from '../ui/CallPill';
 
 const TEXT_SHADOW = '0 2px 6px rgba(0,0,0,0.7)';
 
@@ -23,7 +25,7 @@ export default function Hero() {
     <header
       ref={ref}
       data-header-theme="dark"
-      className="relative isolate min-h-[100svh] overflow-hidden text-ivory"
+      className="relative isolate min-h-[100svh] overflow-hidden text-ivory flex flex-col"
     >
       <motion.div
         aria-hidden
@@ -68,7 +70,9 @@ export default function Hero() {
         }}
       />
 
-      <Container className="relative flex min-h-[100svh] flex-col items-center justify-center text-center pt-32 sm:pt-36 lg:pt-40 pb-24">
+      <BrandLogo />
+
+      <Container className="relative flex flex-1 flex-col items-center justify-start text-center -mt-6 sm:-mt-8 pt-0 pb-12">
         <Reveal>
           <p
             style={{ textShadow: TEXT_SHADOW }}
@@ -130,7 +134,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 0.8 }}
-          className="absolute bottom-8 inset-x-0 mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center bg-transparent border-0 text-cream"
+          className="mt-10 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center bg-transparent border-0 text-cream self-center"
         >
           <motion.svg
             viewBox="0 0 24 24"
@@ -148,6 +152,8 @@ export default function Hero() {
           </motion.svg>
         </motion.button>
       </Container>
+
+      <CallPill theme="dark" />
     </header>
   );
 }
