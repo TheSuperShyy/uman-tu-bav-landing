@@ -8,6 +8,12 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-2 py-10 text-center">
           <p className="text-lg font-semibold text-cream">{footer.brand}</p>
           <p className="text-sm opacity-80">{footer.tagline}</p>
+          <a
+            href={`tel:${footer.phone.replace(/-/g, '')}`}
+            className="mt-2 text-sm text-cream/90 hover:text-cream transition-colors"
+          >
+            {footer.phoneLabel}: <bdi>{footer.phone}</bdi>
+          </a>
           <p className="text-xs opacity-60 pt-2">
             © {new Date().getFullYear()}
           </p>

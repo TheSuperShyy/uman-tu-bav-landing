@@ -5,6 +5,7 @@ import { editorial } from '../../content/media';
 import Button from '../ui/Button';
 import Container from '../layout/Container';
 import Reveal from '../motion/Reveal';
+import Countdown from '../ui/Countdown';
 
 const TEXT_SHADOW = '0 2px 6px rgba(0,0,0,0.7)';
 
@@ -89,13 +90,26 @@ export default function Hero() {
         <Reveal delay={0.3}>
           <p
             style={{ textShadow: TEXT_SHADOW, color: '#faf6ee' }}
-            className="text-pretty text-lg sm:text-2xl max-w-xl mx-auto mb-12 font-light"
+            className="text-pretty text-lg sm:text-2xl max-w-xl mx-auto mb-8 font-light"
           >
             {hero.subtitle}
           </p>
         </Reveal>
 
+        <Reveal delay={0.4}>
+          <p
+            style={{ textShadow: TEXT_SHADOW }}
+            className="text-[10px] sm:text-xs tracking-[0.32em] uppercase text-gold mb-3"
+          >
+            {hero.countdownKicker}
+          </p>
+        </Reveal>
+
         <Reveal delay={0.45}>
+          <Countdown />
+        </Reveal>
+
+        <Reveal delay={0.55}>
           <Button
             pulse
             onClick={() =>
@@ -106,21 +120,32 @@ export default function Hero() {
           </Button>
         </Reveal>
 
-        <motion.div
-          aria-hidden
+        <motion.button
+          type="button"
+          aria-label="גלילה למטה"
+          onClick={() =>
+            window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' })
+          }
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.7 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 0.8 }}
-          className="absolute bottom-8 inset-x-0 flex flex-col items-center gap-2 text-ivory/80"
+          className="absolute bottom-8 inset-x-0 mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-cream/60 bg-ink-night/30 text-cream shadow-cta backdrop-blur"
         >
-          <motion.span
-            animate={reduced ? undefined : { y: [0, 8, 0] }}
-            transition={reduced ? undefined : { duration: 2, ease: 'easeInOut', repeat: Infinity }}
-            className="text-2xl"
+          <motion.svg
+            viewBox="0 0 24 24"
+            className="h-7 w-7 sm:h-8 sm:w-8"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            animate={reduced ? undefined : { y: [0, 5, 0] }}
+            transition={reduced ? undefined : { duration: 1.8, ease: 'easeInOut', repeat: Infinity }}
           >
-            ↓
-          </motion.span>
-        </motion.div>
+            <path d="M6 9l6 6 6-6" />
+          </motion.svg>
+        </motion.button>
       </Container>
     </header>
   );

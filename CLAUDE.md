@@ -81,8 +81,8 @@ No Hebrew strings live inside JSX. When the markdown changes, update the TS modu
 
 There is **no global heading color in `src/index.css`**. The base layer only sets `font-weight` and `line-height` on `h1–h4`. Each section picks its own color explicitly:
 
-- Cream-background sections (`Intro`, `WhyTuBav`, `WhatAwaits`, `WhoFor`, `ImportantInfo`, `Payment`, `Itinerary`, `Gallery`): `text-ink-deep` on the `<h2>`.
-- Photo/video overlays (`Hero`, `CinematicMoment`, `VideoMoment`, `ClosingQuote`, `LeadForm`): `text-ivory` or inline `color: #faf6ee`.
+- Cream-background sections (`Intro`, `WhatAwaits`, `WhoFor`, `ImportantInfo`, `Payment`, `Itinerary`, `Gallery`, `VideoGallery`, `LetterFromRonit`): `text-ink-deep` on the `<h2>`.
+- Photo/video overlays (`Hero`, `CinematicMoment`, `VideoMoment`, `WhyTuBav`, `ClosingQuote`, `LeadForm`): `text-ivory` or inline `color: #faf6ee`.
 
 Do **not** re-add a global `@apply text-ink-deep` to `h1–h4` in `index.css`. It competes with overlay headings via specificity and produces brown text bleeding through over photos.
 
@@ -102,6 +102,25 @@ Do **not** re-add a global `@apply text-ink-deep` to `h1–h4` in `index.css`. I
 - Don't introduce additional animation libraries.
 - Don't use directional Tailwind utilities (`pl/pr/ml/mr`) in this RTL project.
 - Don't add a router or extra pages.
+
+## Persistent UI elements
+
+- Floating brand logo lives in [src/components/ui/LogoBadge.tsx](src/components/ui/LogoBadge.tsx) and mounts once at the top of `App.tsx`. Don't duplicate it inside sections.
+- Countdown timer lives in [src/components/ui/Countdown.tsx](src/components/ui/Countdown.tsx) and reads `tripDate` from `copy.he.ts`. Change the flight date there, not in the component.
+- Office phone for the footer is `footer.phone` in `copy.he.ts`. Single source of truth.
+
+## Letter from Ronit
+
+[LetterFromRonit.tsx](src/components/sections/LetterFromRonit.tsx) embeds the handwritten letter as an image because the source is cursive Hebrew (no transcription). If a new letter arrives:
+
+1. Drop the new PDF into the client folder (`רונית -דף נחיתה אומן/`).
+2. Update the `PDF_PATH` constant in `scripts/convert-letter.mjs` if filename changed.
+3. Run `node scripts/convert-letter.mjs` — regenerates `public/images/letter-from-ronit.{webp,jpg}`.
+
+## New-media optimization
+
+- `scripts/optimize-media.mjs` — full-folder pass. **Re-running re-numbers everything**, so use only on a fresh project or when you want to rebuild from scratch.
+- `scripts/optimize-new-media.mjs` — add-on script with a hardcoded source-file list and explicit output indices (logo + `video-07.mp4`..`video-16.mp4`). Use this when adding new assets without disturbing existing indices.
 
 ## Notes
 

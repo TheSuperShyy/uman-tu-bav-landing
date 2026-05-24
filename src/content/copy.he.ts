@@ -13,11 +13,25 @@ export const meta = {
   besd: 'בס״ד',
 } as const;
 
+// Trip departure date — used by the countdown timer in Hero.
+// Israel time, dawn flight (05:00 local). Update if exact takeoff differs.
+export const tripDate = {
+  iso: '2026-07-28T05:00:00+03:00',
+  labels: {
+    days: 'ימים',
+    hours: 'שעות',
+    minutes: 'דקות',
+    seconds: 'שניות',
+  },
+  afterFlightMessage: 'המסע התקיים — תודה ❤️',
+} as const;
+
 export const hero = {
   spotlight: 'אור הצדיק רונית ברש',
   title: 'הזיווג שלך מתחיל בט״ו באב הזה 💍',
-  subtitle: 'המסע לנשים שיכול לשנות לך את השנה',
-  cta: '✨ אני רוצה לשמור מקום',
+  subtitle: 'המסע הנשי שיכול לשנות לך את השנה',
+  countdownKicker: 'הספירה לאומן',
+  cta: 'אני רוצה לשמוע עוד',
 } as const;
 
 export const intro = {
@@ -28,7 +42,7 @@ export const intro = {
   ],
   highlights: [
     'קבוצה נשית איכותית בהובלת רונית ברש 👭',
-    'מתנה אישית לכל נוסעת בשדה 🎁',
+    'מתנה אישית לכל נוסעת 🎁',
     'כולל טיסות, מלון מפנק, ארוחות והפקה מיוחדת של פעם בשנה ✈️',
   ],
 } as const;
@@ -58,7 +72,7 @@ export const priceTeaser = {
   kicker: 'מספר המקומות מוגבל ✨',
   headline: 'שינוי לחיים',
   body: 'יש מסעות שמשנים את המסלול. ויש כאלה שמשנים את הלב.',
-  cta: 'אני רוצה לקרוא הכל ↓',
+  cta: 'אני רוצה להירשם ↓',
 } as const;
 
 // Big reveal moment (just before the lead form).
@@ -69,13 +83,24 @@ export const priceReveal = {
   postlude: 'כולל טיסות, מלון מפנק, ארוחות, הפקה והפתעות',
 } as const;
 
+// Personal handwritten letter from Ronit — embedded as an image because
+// the source PDF is handwritten cursive Hebrew (no transcription).
+export const letterFromRonit = {
+  kicker: 'מילים אישיות מרונית',
+  image: '/images/letter-from-ronit.webp',
+  imageFallback: '/images/letter-from-ronit.jpg',
+  alt: 'מכתב אישי בכתב יד מרונית ברש',
+} as const;
+
 export const whyTuBav = {
-  title: '💫 למה דווקא בט״ו באב?',
+  title: 'למה דווקא בט״ו באב?',
+  quote: 'לא היו ימים טובים לישראל כט״ו באב וכיום הכיפורים',
+  quoteAttribution: 'משנה, תענית ד׳:ח׳',
   paragraphs: [
     'יש תאריכים שמרגישים אחרת בלב.',
     'ט״ו באב נחשב ליום מסוגל לזיווגים, ישועות, אהבה והתחלות חדשות.',
     'אלפי נשים מגיעות בכל שנה להתפלל אצל רבי נחמן מברסלב דווקא ביום הזה — על חתונה, ילדים, פרנסה, שמחה וריפוי הלב.',
-    'אולי השנה… גם את אמורה להיות שם יחד איתי ❤️',
+    'אולי השנה… גם המקום שלך שם, יחד איתי ❤️',
   ],
 } as const;
 
@@ -83,7 +108,7 @@ export const whatAwaits = {
   title: 'מה מחכה לך במסע?',
   items: [
     'טיסה קבוצתית וחוויה נשית מיוחדת ✈️',
-    'מלון מפואר, "המשכן" באומן 🏨',
+    'מלון "המשכן" המפואר באומן 🏨',
     'ארוחות מסודרות 🍽️',
     'תפילות בציון הקדוש 🕍',
     'שבת מרוממת באומן 🕯️',
@@ -112,7 +137,7 @@ export const importantInfo = {
     'הנסיעה מיועדת לנשים בלבד',
     'מספר המקומות מוגבל',
     'ההרשמה מתבצעת לאחר שיחה אישית',
-    'דרכון בתוקף חובה (חצי שנה מיום היציאה לפחות)',
+    'דרכון בתוקף — לפחות חצי שנה מיום היציאה',
     'שמירת מקום מותנית בתשלום מלא',
   ],
 } as const;
@@ -124,7 +149,7 @@ export const payment = {
     {
       label: 'אשראי',
       amount: '6,077₪',
-      note: 'ניתן לפרוס עד 12 תשלומים',
+      note: 'ניתן לפרוס עד ל-12 תשלומים',
     },
   ],
 } as const;
@@ -141,28 +166,28 @@ export const itinerary = {
   ],
 } as const;
 
+export const videoGallery = {
+  title: 'רגעים מהמסע',
+  subtitle: 'הצצה קצרה לאווירה — לחצי על סרטון כדי לצפות',
+} as const;
+
 export const leadForm = {
   title: 'השאירי פרטים ונחזור אלייך',
   fields: {
     fullName: 'שם מלא',
     age: 'גיל',
-    company: {
-      label: 'מגיעה לבד / עם חברה',
-      options: ['לבד', 'עם חברה'] as const,
+    birthDate: 'תאריך לידה',
+    city: 'עיר מגורים',
+    occupation: 'עיסוק ותפקיד',
+    phone: 'מספר טלפון',
+    email: 'מייל',
+    phoneKind: {
+      label: 'סוג הטלפון',
+      options: ['כשר', 'רגיל'] as const,
     },
     passport: {
-      label: 'האם יש דרכון בתוקף?',
+      label: 'האם יש דרכון בתוקף לפחות 6 חודשים מיום היציאה?',
       options: ['כן', 'לא'] as const,
-    },
-    attraction: {
-      label: 'מה הכי מושך אותך במסע הזה?',
-      options: [
-        'זיווג',
-        'התחזקות',
-        'שבת באומן',
-        'החוויה הנשית',
-        'הכל יחד',
-      ] as const,
     },
   },
   cta: '✨ אני רוצה לטוס לאומן בט״ו באב',
@@ -179,4 +204,6 @@ export const closingQuote = {
 export const footer = {
   brand: 'אור הצדיק · רונית ברש',
   tagline: 'מסע נשי לאומן · ט״ו באב',
+  phone: '050-2696862',
+  phoneLabel: 'טלפון המשרד',
 } as const;

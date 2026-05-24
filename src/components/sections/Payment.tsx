@@ -37,7 +37,14 @@ export default function Payment() {
         </Reveal>
 
         <Reveal delay={0.12}>
-          <div className="relative inline-flex items-baseline gap-1 mb-2 leading-none">
+          {/* dir="ltr" pins the number-then-symbol order. Without this,
+              RTL flex reverses the inline-flex children and the ₪ ends
+              up on the wrong side (left of the digits), inconsistent
+              with the option cards below which render "5,900₪". */}
+          <div
+            dir="ltr"
+            className="relative inline-flex items-baseline gap-1 mb-2 leading-none"
+          >
             <CountUp
               to={price.amountValue}
               duration={1.9}

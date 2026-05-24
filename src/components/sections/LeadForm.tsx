@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent, type InputHTMLAttributes } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Section from '../layout/Section';
 import Reveal from '../motion/Reveal';
@@ -11,6 +11,20 @@ const fieldClass =
   'transition-shadow';
 
 const labelClass = 'block text-cream font-semibold mb-1.5 text-base';
+
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  id: string;
+  label: string;
+};
+
+function Field({ id, label, ...rest }: InputProps) {
+  return (
+    <div>
+      <label htmlFor={id} className={labelClass}>{label}</label>
+      <input id={id} name={id} className={fieldClass} {...rest} />
+    </div>
+  );
+}
 
 type RadioGroupProps = {
   name: string;
@@ -63,19 +77,19 @@ export default function LeadForm() {
 
         <Reveal>
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-            <div>
-              <label htmlFor="fullName" className={labelClass}>{f.fullName}</label>
-              <input id="fullName" name="fullName" className={fieldClass} autoComplete="name" />
+            <div className="grid sm:grid-cols-2 gap-5">
+              <Field id="fullName" label={f.fullName} autoComplete="name" />
+              <Field id="age" label={f.age} type="number" inputMode="numeric" min={16} max={120} />
+              <Field id="birthDate" label={f.birthDate} type="date" />
+              <Field id="city" label={f.city} autoComplete="address-level2" />
+              <Field id="occupation" label={f.occupation} />
+              <Field id="phone" label={f.phone} type="tel" inputMode="tel" autoComplete="tel" />
             </div>
 
-            <div>
-              <label htmlFor="age" className={labelClass}>{f.age}</label>
-              <input id="age" name="age" type="number" inputMode="numeric" className={fieldClass} />
-            </div>
-
-            <RadioGroup name="company" label={f.company.label} options={f.company.options} />
+            <RadioGroup name="phoneKind" label={f.phoneKind.label} options={f.phoneKind.options} />
             <RadioGroup name="passport" label={f.passport.label} options={f.passport.options} />
-            <RadioGroup name="attraction" label={f.attraction.label} options={f.attraction.options} />
+
+            <Field id="email" label={f.email} type="email" autoComplete="email" />
 
             <div className="pt-3 text-center">
               <Button pulse type="submit" className="w-full sm:w-auto">

@@ -74,4 +74,23 @@ export const editorial = {
   // Ronit walking down marble stairs.
   ronitVideo: video(4),
   ronitVideoPoster: videoPoster(4),
+
+  // Round-2 client videos (10 clips, optimized via scripts/optimize-new-media.mjs).
+  // Powers the VideoGallery section.
+  videoGallery: [
+    { src: video(7), poster: videoPoster(7) },
+    { src: video(8), poster: videoPoster(8) },
+    { src: video(9), poster: videoPoster(9) },
+    { src: video(10), poster: videoPoster(10) },
+    { src: video(11), poster: videoPoster(11) },
+    { src: video(12), poster: videoPoster(12) },
+    { src: video(13), poster: videoPoster(13) },
+    { src: video(14), poster: videoPoster(14) },
+    { src: video(15), poster: videoPoster(15) },
+    { src: video(16), poster: videoPoster(16) },
+  ],
+
+  // Floating brand badge — see LogoBadge.tsx.
+  logo: '/images/logo.webp',
+  logoFallback: '/images/logo.png',
 } as const;
