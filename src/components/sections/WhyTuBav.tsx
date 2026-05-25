@@ -77,7 +77,7 @@ export default function WhyTuBav() {
             style={{ textShadow: TEXT_SHADOW }}
             className="text-xs sm:text-sm uppercase tracking-[0.28em] text-gold mb-12"
           >
-            — {whyTuBav.quoteAttribution}
+            {whyTuBav.quoteAttribution}
           </p>
         </Reveal>
 

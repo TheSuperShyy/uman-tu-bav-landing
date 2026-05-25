@@ -2,9 +2,11 @@ import Section from '../layout/Section';
 import Reveal from '../motion/Reveal';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
+import { usePageNav } from '../ui/PageNavContext';
 import { priceTeaser } from '../../content/copy.he';
 
 export default function PriceBlock() {
+  const { goNext } = usePageNav();
   return (
     <Section bg="bg-cream-alt" noPill>
       <Reveal>
@@ -18,12 +20,7 @@ export default function PriceBlock() {
           <p className="text-lg sm:text-xl text-ink-body text-pretty mb-10">
             {priceTeaser.body}
           </p>
-          <Button
-            pulse
-            onClick={() =>
-              window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' })
-            }
-          >
+          <Button pulse onClick={goNext}>
             {priceTeaser.cta}
           </Button>
         </div>

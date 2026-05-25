@@ -8,7 +8,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
 import { pdf } from 'pdf-to-img';
 
-const PDF_PATH = 'רונית -דף נחיתה אומן/WhatsApp Scan 2026-05-24 at 12.37.42.pdf';
+const PDF_PATH = 'רונית -דף נחיתה אומן/Adobe Scan 25 במאי 2026.pdf';
 const OUT_DIR = 'public/images';
 const OUT_WEBP = 'public/images/letter-from-ronit.webp';
 const OUT_JPG = 'public/images/letter-from-ronit.jpg';

@@ -113,7 +113,7 @@ async function optimizeLogo() {
   // based on perceived luminance.
   const { data, info } = await sharp(buf, { failOn: 'none' })
     .rotate()
-    .resize({ width: 256, withoutEnlargement: true, fit: 'inside' })
+    .resize({ width: 768, withoutEnlargement: true, fit: 'inside' })
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });

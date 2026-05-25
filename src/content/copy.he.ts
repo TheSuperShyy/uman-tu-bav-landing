@@ -95,7 +95,7 @@ export const letterFromRonit = {
 export const whyTuBav = {
   title: 'למה דווקא בט״ו באב?',
   quote: 'לא היו ימים טובים לישראל כט״ו באב וכיום הכיפורים',
-  quoteAttribution: 'משנה, תענית ד׳:ח׳',
+  quoteAttribution: '(מסכת תענית)',
   paragraphs: [
     'יש תאריכים שמרגישים אחרת בלב.',
     'ט״ו באב נחשב ליום מסוגל לזיווגים, ישועות, אהבה והתחלות חדשות.',
