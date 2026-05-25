@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Section from '../layout/Section';
 import Reveal from '../motion/Reveal';
 import BlobBackdrop from '../ui/BlobBackdrop';
+import TestimonialsMarquee from '../ui/TestimonialsMarquee';
 import { testimonials } from '../../content/copy.he';
 import { editorial } from '../../content/media';
 
@@ -330,6 +331,44 @@ export default function Testimonials() {
                 style={{ left: `${progress * 100}%` }}
               />
             </div>
+          </div>
+        </div>
+      </Reveal>
+
+      {/* Photo marquee below the video — continuous slow loop with a
+          tap-to-zoom lightbox. The strip stays within the centered
+          Container width on tablet+, leaving room on the flanks for
+          the floral sprays. Heart-divider cap above + drifting blooms
+          give it the same feminine dress the video block already has. */}
+      <Reveal delay={0.25}>
+        <div className="mt-12 sm:mt-16">
+          {/* Ornamental cap above the marquee — small flourish + heart + flourish */}
+          <div className="flex items-center justify-center gap-3 mb-5 sm:mb-6" aria-hidden>
+            <svg viewBox="0 0 60 8" className="h-2 w-16 sm:w-20 text-gold/60" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
+              <path d="M0 4 Q10 0 20 4 Q30 8 40 4 Q50 0 60 4" />
+            </svg>
+            <HeartFlourish />
+            <svg viewBox="0 0 60 8" className="h-2 w-16 sm:w-20 text-gold/60" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
+              <path d="M0 4 Q10 8 20 4 Q30 0 40 4 Q50 8 60 4" />
+            </svg>
+          </div>
+
+          {/* Marquee bleeds edge-to-edge on mobile (no sprays), then
+              tucks into a wider-but-still-bounded area on sm+ so the
+              flanking sprays sit cleanly outside the photos. */}
+          <div className="relative -mx-5 sm:mx-0">
+            {/* Floral sprays flanking the marquee strip on tablet/desktop. */}
+            <FloralSpray className="hidden sm:block absolute -start-4 lg:-start-2 top-1/2 -translate-y-1/2 h-[220px] sm:h-[240px] w-14 sm:w-16 opacity-80 pointer-events-none z-20" />
+            <FloralSpray flipped className="hidden sm:block absolute -end-4 lg:-end-2 top-1/2 -translate-y-1/2 h-[220px] sm:h-[240px] w-14 sm:w-16 opacity-80 pointer-events-none z-20" />
+
+            {/* Marquee itself, narrowed on sm+ to leave room for the sprays. */}
+            <div className="sm:mx-20">
+              <TestimonialsMarquee photos={editorial.testimonialsPhotos} speed={80} />
+            </div>
+
+            {/* Drifting blooms — extra ambient sparkle outside the strip. */}
+            <Bloom className="hidden sm:block absolute -top-3 left-1/4 h-4 w-4 z-20" />
+            <Bloom className="hidden sm:block absolute -bottom-3 right-1/4 h-4 w-4 z-20" delay={1.4} />
           </div>
         </div>
       </Reveal>

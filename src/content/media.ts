@@ -129,6 +129,14 @@ export const editorial = {
   testimonialsVideo: video(27),
   testimonialsVideoPoster: videoPoster(27),
 
+  // Client testimonials photos — 14 WhatsApp screenshots optimized into
+  // their own subfolder so the gallery + decorative marquee don't see
+  // them. Powers the interactive marquee + lightbox in the Testimonials
+  // section.
+  testimonialsPhotos: Array.from({ length: 14 }, (_, i) =>
+    `/images/testimonials/${String(i + 1).padStart(2, '0')}.webp`,
+  ) as readonly string[],
+
   // Round-2 client videos (20 clips, optimized via scripts/optimize-new-media.mjs).
   // Powers the VideoGallery section.
   videoGallery: [

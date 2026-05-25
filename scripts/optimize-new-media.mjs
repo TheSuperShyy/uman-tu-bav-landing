@@ -21,8 +21,10 @@ const execFileP = promisify(execFile);
 
 const SRC = 'רונית -דף נחיתה אומן';
 const SRC_SUB = 'רונית -דף נחיתה אומן/WhatsApp Unknown 2026-05-19 at 15.17.59.zip סרטונים אומן';
+const SRC_TESTIMONIALS = 'רונית -דף נחיתה אומן/testimonials';
 const STAGING = '.tmp-new-media';
 const OUT_IMG = 'public/images';
+const OUT_TESTIMONIALS = 'public/images/testimonials';
 const OUT_VID = 'public/videos';
 
 const VID_MAX_HEIGHT = 720;
@@ -46,6 +48,26 @@ const PHOTOS = [
   { dir: SRC, name: 'd5328132-27e8-4143-9e38-72159f2f7047.jpg', out: 31 },
   { dir: SRC, name: 'd9e0ae00-ba72-429d-84f8-6d07f401ce91.jpg', out: 32 },
   { dir: SRC, name: 'WhatsApp Image 2026-05-20 at 19.13.28.jpeg', out: 33 },
+];
+
+// Round-4: 14 client-supplied testimonial photos. Kept in their own
+// public/images/testimonials/ subfolder so they don't bleed into the
+// photo-NN.webp numbering used by Gallery + the top decorative marquee.
+const TESTIMONIAL_PHOTOS = [
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.48.jpeg', out: 1 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.49.jpeg', out: 2 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.49 (1).jpeg', out: 3 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.49 (2).jpeg', out: 4 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.49 (3).jpeg', out: 5 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.50.jpeg', out: 6 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.50 (1).jpeg', out: 7 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.50 (2).jpeg', out: 8 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.41.50 (3).jpeg', out: 9 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.42.46.jpeg', out: 10 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.44.38.jpeg', out: 11 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.46.07.jpeg', out: 12 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.46.15.jpeg', out: 13 },
+  { name: 'WhatsApp Image 2026-05-25 at 18.47.30.jpeg', out: 14 },
 ];
 
 const VIDEOS = [
@@ -132,6 +154,19 @@ async function optimizePhoto(stagedPath, outIdx) {
   return { bytes: outStat.size, outName };
 }
 
+async function optimizeTestimonial(stagedPath, outIdx) {
+  const outName = `${pad(outIdx)}.webp`;
+  const outPath = join(OUT_TESTIMONIALS, outName);
+  const buf = await readFile(stagedPath);
+  await sharp(buf, { failOn: 'none' })
+    .rotate()
+    .resize({ width: IMG_MAX_WIDTH, withoutEnlargement: true, fit: 'inside' })
+    .webp({ quality: IMG_QUALITY, effort: 4 })
+    .toFile(outPath);
+  const outStat = await stat(outPath);
+  return { bytes: outStat.size, outName };
+}
+
 async function optimizeVideo(stagedPath, outIdx) {
   const outName = `video-${pad(outIdx)}.mp4`;
   const posterName = `video-${pad(outIdx)}-poster.webp`;
@@ -179,6 +214,7 @@ async function optimizeVideo(stagedPath, outIdx) {
 
 async function main() {
   await ensureDir(OUT_IMG);
+  await ensureDir(OUT_TESTIMONIALS);
   await ensureDir(OUT_VID);
   await ensureDir(STAGING);
 
@@ -210,6 +246,28 @@ async function main() {
       const stagedPath = await stageFile(p.dir, p.name, `img-${pad(p.out)}.jpg`);
       process.stdout.write(`  [photo-${pad(p.out)}] ${p.name.slice(0, 50)}... `);
       const info = await optimizePhoto(stagedPath, p.out);
+      console.log(`${(info.bytes / 1024).toFixed(0)}KB`);
+    } catch (err) {
+      console.log(`FAILED — ${err.message?.split('\n')[0] ?? err}`);
+    }
+  }
+
+  console.log(`\nOptimizing ${TESTIMONIAL_PHOTOS.length} testimonial photos (force=${force}) ...`);
+  for (const t of TESTIMONIAL_PHOTOS) {
+    const outPath = join(OUT_TESTIMONIALS, `${pad(t.out)}.webp`);
+    if (!force) {
+      try {
+        await access(outPath);
+        console.log(`  [testimonial-${pad(t.out)}] exists — skip`);
+        continue;
+      } catch {
+        // not present, fall through
+      }
+    }
+    try {
+      const stagedPath = await stageFile(SRC_TESTIMONIALS, t.name, `tst-${pad(t.out)}.jpg`);
+      process.stdout.write(`  [testimonial-${pad(t.out)}] ${t.name.slice(0, 50)}... `);
+      const info = await optimizeTestimonial(stagedPath, t.out);
       console.log(`${(info.bytes / 1024).toFixed(0)}KB`);
     } catch (err) {
       console.log(`FAILED — ${err.message?.split('\n')[0] ?? err}`);
