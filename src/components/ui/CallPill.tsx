@@ -2,9 +2,7 @@ import { footer } from '../../content/copy.he';
 
 // Centered call-pill — used at the bottom of every section. Colors
 // adapt to the section's background via the `theme` prop (passed in by
-// the section so we don't need a global scroll listener). The big
-// bottom padding leaves room for the fixed PageNav so the two don't
-// stack on top of each other on viewport-height sections (Hero etc.).
+// the section so we don't need a global scroll listener).
 type Props = { theme?: 'dark' | 'light' };
 
 const STYLES = {
@@ -23,7 +21,7 @@ const STYLES = {
 export default function CallPill({ theme = 'light' }: Props) {
   const s = STYLES[theme];
   return (
-    <div className="w-full flex items-center justify-center pt-2 pb-24 sm:pt-3 sm:pb-28">
+    <div className="w-full flex items-center justify-center pt-2 pb-8 sm:pt-3 sm:pb-10">
       <a
         href={`tel:${footer.phone.replace(/-/g, '')}`}
         style={{

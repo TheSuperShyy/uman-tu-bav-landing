@@ -8,14 +8,12 @@ import Reveal from '../motion/Reveal';
 import Countdown from '../ui/Countdown';
 import BrandLogo from '../ui/BrandLogo';
 import CallPill from '../ui/CallPill';
-import { usePageNav } from '../ui/PageNavContext';
 
 const TEXT_SHADOW = '0 2px 6px rgba(0,0,0,0.7)';
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  const { goNext } = usePageNav();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -117,15 +115,22 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={0.55}>
-          <Button pulse onClick={goNext}>
+          <Button
+            pulse
+            onClick={() =>
+              window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' })
+            }
+          >
             {hero.cta}
           </Button>
         </Reveal>
 
         <motion.button
           type="button"
-          aria-label="לעמוד הבא"
-          onClick={goNext}
+          aria-label="גלילה למטה"
+          onClick={() =>
+            window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' })
+          }
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 0.8 }}

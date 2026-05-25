@@ -32,7 +32,7 @@ const VID_PRESET = 'medium';
 const IMG_MAX_WIDTH = 1920;
 const IMG_QUALITY = 78;
 
-const LOGO_SRC = { dir: SRC, name: 'ronit-logo.jpeg' };
+const LOGO_SRC = { dir: SRC, name: 'logo-removebg.png' };
 
 // Round-2 photos: the 5 May-24 additions that the original
 // optimize-media.mjs pass didn't see. Existing photo-01..28.webp stay
@@ -96,55 +96,23 @@ async function stageFile(srcDir, srcName, stagedName) {
 }
 
 async function optimizeLogo() {
-  // Logo: stage, resize, then knock out the white background so the
-  // mark appears directly on whatever surface it's placed on.
-  //
-  // The source is a JPEG with a baked-in white card behind the gold
-  // emblem. We use luminance-based alpha (not a binary threshold) so
-  // the curly serifs of the mark stay smoothly anti-aliased instead
-  // of looking pixelated at the edges.
+  // Logo: the source PNG already has a transparent background (the
+  // "removebg" variant the client sent), so the previous luminance-based
+  // alpha knockout is no longer needed. We just upscale 500→1024 with
+  // Lanczos so the mark stays crisp at 3× retina on the splash screen
+  // (which renders the logo up to 256px wide).
   const staged = await stageFile(LOGO_SRC.dir, LOGO_SRC.name, 'logo-src' + extname(LOGO_SRC.name));
   const buf = await readFile(staged);
 
   const webpOut = join(OUT_IMG, 'logo.webp');
   const pngOut = join(OUT_IMG, 'logo.png');
 
-  // Pipeline: resize, ensure alpha, then walk pixel data and dial alpha
-  // based on perceived luminance.
-  const { data, info } = await sharp(buf, { failOn: 'none' })
+  const pipeline = sharp(buf, { failOn: 'none' })
     .rotate()
-    .resize({ width: 768, withoutEnlargement: true, fit: 'inside' })
-    .ensureAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
+    .resize({ width: 1024, height: 1024, fit: 'inside', kernel: 'lanczos3' });
 
-  const pixels = Buffer.from(data); // mutable copy
-  // Tuned for the cream-on-gold logo: pixels with luminance > 245 go
-  // fully transparent (the white card), 200–245 get a graduated alpha
-  // (anti-aliased edge pixels), and < 200 stays fully opaque (the
-  // gold mark itself).
-  const FULL_T = 245;
-  const FADE_T = 200;
-  for (let i = 0; i < pixels.length; i += 4) {
-    const r = pixels[i];
-    const g = pixels[i + 1];
-    const b = pixels[i + 2];
-    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-    if (lum >= FULL_T) {
-      pixels[i + 3] = 0;
-    } else if (lum > FADE_T) {
-      // Linear ramp from FADE_T (alpha 255) to FULL_T (alpha 0)
-      const ratio = (FULL_T - lum) / (FULL_T - FADE_T);
-      pixels[i + 3] = Math.round(ratio * 255);
-    }
-    // else: keep alpha 255 (set by ensureAlpha)
-  }
-
-  const rawIn = sharp(pixels, {
-    raw: { width: info.width, height: info.height, channels: 4 },
-  });
-  await rawIn.clone().webp({ quality: 92, effort: 4, alphaQuality: 100 }).toFile(webpOut);
-  await rawIn.clone().png({ compressionLevel: 9 }).toFile(pngOut);
+  await pipeline.clone().webp({ quality: 92, effort: 4, alphaQuality: 100 }).toFile(webpOut);
+  await pipeline.clone().png({ compressionLevel: 9 }).toFile(pngOut);
 
   const webpStat = await stat(webpOut);
   const pngStat = await stat(pngOut);

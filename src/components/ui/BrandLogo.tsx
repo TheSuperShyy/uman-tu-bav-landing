@@ -15,7 +15,7 @@ export default function BrandLogo() {
         <img
           src={editorial.logo}
           alt="אור הצדיק"
-          className="block h-36 w-36 sm:h-40 sm:w-40 lg:h-44 lg:w-44"
+          className="block h-48 w-48 sm:h-56 sm:w-56 lg:h-64 lg:w-64"
           loading="lazy"
           decoding="async"
         />
