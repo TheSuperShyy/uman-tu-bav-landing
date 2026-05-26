@@ -75,11 +75,11 @@ No Hebrew strings live inside JSX. When the markdown changes, update the TS modu
 
 ## Form
 
-`LeadForm` POSTs to **`/api/lead`** (a Vercel Edge Function at [api/lead.ts](api/lead.ts)), which forwards each submission to the client's Monday.com board via Monday's GraphQL API. Three env vars drive the wiring (see [.env.example](.env.example) for the full list): `MONDAY_API_TOKEN`, `MONDAY_BOARD_ID`, and `MONDAY_COLUMN_MAP` (a JSON map of form field → Monday column id).
+`LeadForm` POSTs to **`/api/lead`** (a Vercel Edge Function at [api/lead.ts](api/lead.ts)), which is a thin proxy that forwards the JSON straight through to `https://api.ronitbarash.site/api/website/lead`. The Ronit backend handles dedup (phone-based across CRM/Uman/Poland/Challah boards, and IG-aware via the `ig_id` field), channel attribution, and the actual Monday writes. No env vars are needed on our side — the backend URL is hardcoded in the function.
 
-The token never reaches the client bundle — it lives only in Vercel env vars and `.env.local` for local `vercel dev`. The form state machine handles `idle | submitting | success | error` and surfaces a toast per state.
+On mount the form reads `?ig_id=` and `?utm_source=` from the page URL and includes them in the payload. The submit handler also remaps form-field names to the snake_case keys the backend's Zod schema expects (`fullName → name`, `birthDate → birth_date`, `phoneKind → phone_type`) and translates the Hebrew radio values to English (`כשר → kosher`, `כן → yes`). The form state machine stays `idle | submitting | success | error` with a toast per state.
 
-Local dev: run `npx vercel dev` instead of `npm run dev` so the `/api/lead` route is served alongside Vite. Without env vars set, the endpoint returns `not-configured` and the form shows the error toast.
+Local dev: run `npx vercel dev` instead of `npm run dev` so the `/api/lead` route is served alongside Vite — `npm run dev` alone runs the static site only and form submissions will 404.
 
 ## Heading colors
 

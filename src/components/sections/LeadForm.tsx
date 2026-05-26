@@ -1,4 +1,14 @@
 import { useState, type FormEvent, type InputHTMLAttributes } from 'react';
+// Mapping of the Hebrew radio values used in the form UI to the
+// English enum values the backend's Zod schema expects.
+const PHONE_TYPE_MAP: Record<string, 'kosher' | 'regular'> = {
+  כשר: 'kosher',
+  רגיל: 'regular',
+};
+const PASSPORT_MAP: Record<string, 'yes' | 'no'> = {
+  כן: 'yes',
+  לא: 'no',
+};
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Section from '../layout/Section';
 import Reveal from '../motion/Reveal';
@@ -67,21 +77,40 @@ export default function LeadForm() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formEl = e.currentTarget;
-    const data = Object.fromEntries(new FormData(formEl).entries());
+    const formData = new FormData(formEl);
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Remap to the snake_case keys the backend expects, translate the
+    // Hebrew radio values to the English enums, and tack on URL-derived
+    // attribution fields so the backend can dedup IG-sourced leads.
+    const ageRaw = formData.get('age');
+    const phoneKindHe = String(formData.get('phoneKind') ?? '');
+    const passportHe = String(formData.get('passport') ?? '');
+
+    const payload = {
+      name: String(formData.get('fullName') ?? '').trim(),
+      phone: String(formData.get('phone') ?? '').trim(),
+      age: ageRaw ? Number(ageRaw) : undefined,
+      birth_date: (formData.get('birthDate') as string) || undefined,
+      city: (formData.get('city') as string) || undefined,
+      occupation: (formData.get('occupation') as string) || undefined,
+      email: (formData.get('email') as string) || undefined,
+      phone_type: PHONE_TYPE_MAP[phoneKindHe] ?? phoneKindHe,
+      passport: PASSPORT_MAP[passportHe] ?? passportHe,
+      service: 'uman' as const,
+      ig_id: urlParams.get('ig_id'),
+      utm_source: urlParams.get('utm_source') || 'direct',
+    };
 
     setStatus('submitting');
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
-      const json = (await res.json().catch(() => ({}))) as {
-        ok?: boolean;
-        error?: string;
-      };
-      if (!res.ok || !json.ok) {
-        throw new Error(json.error || `submit failed (${res.status})`);
+      if (!res.ok) {
+        throw new Error(`submit failed (${res.status})`);
       }
       setStatus('success');
       formEl.reset();
