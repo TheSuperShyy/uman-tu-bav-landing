@@ -106,8 +106,11 @@ export default function LeadForm() {
       city: (formData.get('city') as string) || undefined,
       occupation: (formData.get('occupation') as string) || undefined,
       email: (formData.get('email') as string) || undefined,
-      phone_type: phoneKindHe ? (PHONE_TYPE_MAP[phoneKindHe] ?? phoneKindHe) : undefined,
-      passport: passportHe ? (PASSPORT_MAP[passportHe] ?? passportHe) : undefined,
+      // Backend Zod schema still requires phone_type + passport. UI marks
+      // them optional, so we fall back to the most-common defaults when the
+      // user skips them; Ronit can correct on her end if needed.
+      phone_type: phoneKindHe ? (PHONE_TYPE_MAP[phoneKindHe] ?? phoneKindHe) : 'regular',
+      passport: passportHe ? (PASSPORT_MAP[passportHe] ?? passportHe) : 'no',
       service: 'uman' as const,
       ig_id: urlParams.get('ig_id'),
       utm_source: urlParams.get('utm_source') || 'direct',
@@ -170,8 +173,8 @@ export default function LeadForm() {
               <Field id="phone" label={f.phone} type="tel" inputMode="tel" autoComplete="tel" required />
             </div>
 
-            <RadioGroup name="phoneKind" label={f.phoneKind.label} options={f.phoneKind.options} required />
-            <RadioGroup name="passport" label={f.passport.label} options={f.passport.options} required />
+            <RadioGroup name="phoneKind" label={f.phoneKind.label} options={f.phoneKind.options} />
+            <RadioGroup name="passport" label={f.passport.label} options={f.passport.options} />
 
             <Field id="email" label={f.email} type="email" autoComplete="email" />
 
