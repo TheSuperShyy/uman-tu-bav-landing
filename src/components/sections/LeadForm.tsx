@@ -27,10 +27,17 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
 };
 
+function RequiredMark() {
+  return <span className="text-rose-300 ms-1" aria-hidden>*</span>;
+}
+
 function Field({ id, label, ...rest }: InputProps) {
   return (
     <div>
-      <label htmlFor={id} className={labelClass}>{label}</label>
+      <label htmlFor={id} className={labelClass}>
+        {label}
+        {rest.required && <RequiredMark />}
+      </label>
       <input id={id} name={id} className={fieldClass} {...rest} />
     </div>
   );
@@ -40,19 +47,23 @@ type RadioGroupProps = {
   name: string;
   label: string;
   options: readonly string[];
+  required?: boolean;
 };
 
-function RadioGroup({ name, label, options }: RadioGroupProps) {
+function RadioGroup({ name, label, options, required }: RadioGroupProps) {
   return (
     <fieldset>
-      <legend className={labelClass}>{label}</legend>
+      <legend className={labelClass}>
+        {label}
+        {required && <RequiredMark />}
+      </legend>
       <div className="flex flex-wrap gap-2">
         {options.map((opt) => (
           <label
             key={opt}
             className="cursor-pointer rounded-full bg-cream/15 px-4 py-2 text-cream text-sm sm:text-base ring-1 ring-cream/30 hover:bg-cream/25 transition-colors has-[:checked]:bg-cream has-[:checked]:text-ink-deep has-[:checked]:ring-cream"
           >
-            <input type="radio" name={name} value={opt} className="sr-only" />
+            <input type="radio" name={name} value={opt} required={required} className="sr-only" />
             {opt}
           </label>
         ))}
@@ -95,8 +106,8 @@ export default function LeadForm() {
       city: (formData.get('city') as string) || undefined,
       occupation: (formData.get('occupation') as string) || undefined,
       email: (formData.get('email') as string) || undefined,
-      phone_type: PHONE_TYPE_MAP[phoneKindHe] ?? phoneKindHe,
-      passport: PASSPORT_MAP[passportHe] ?? passportHe,
+      phone_type: phoneKindHe ? (PHONE_TYPE_MAP[phoneKindHe] ?? phoneKindHe) : undefined,
+      passport: passportHe ? (PASSPORT_MAP[passportHe] ?? passportHe) : undefined,
       service: 'uman' as const,
       ig_id: urlParams.get('ig_id'),
       utm_source: urlParams.get('utm_source') || 'direct',
@@ -149,18 +160,18 @@ export default function LeadForm() {
         </div>
 
         <Reveal>
-          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
-              <Field id="fullName" label={f.fullName} autoComplete="name" />
+              <Field id="fullName" label={f.fullName} autoComplete="name" required />
               <Field id="age" label={f.age} type="number" inputMode="numeric" min={16} max={120} />
               <Field id="birthDate" label={f.birthDate} type="date" />
               <Field id="city" label={f.city} autoComplete="address-level2" />
               <Field id="occupation" label={f.occupation} />
-              <Field id="phone" label={f.phone} type="tel" inputMode="tel" autoComplete="tel" />
+              <Field id="phone" label={f.phone} type="tel" inputMode="tel" autoComplete="tel" required />
             </div>
 
-            <RadioGroup name="phoneKind" label={f.phoneKind.label} options={f.phoneKind.options} />
-            <RadioGroup name="passport" label={f.passport.label} options={f.passport.options} />
+            <RadioGroup name="phoneKind" label={f.phoneKind.label} options={f.phoneKind.options} required />
+            <RadioGroup name="passport" label={f.passport.label} options={f.passport.options} required />
 
             <Field id="email" label={f.email} type="email" autoComplete="email" />
 
