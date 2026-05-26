@@ -51,18 +51,62 @@ function RadioGroup({ name, label, options }: RadioGroupProps) {
   );
 }
 
+type Status = 'idle' | 'submitting' | 'success' | 'error';
+
+const TOAST_TONE: Record<Exclude<Status, 'idle'>, string> = {
+  submitting: 'bg-ink-deep text-cream',
+  success: 'bg-emerald-700/95 text-cream',
+  error: 'bg-rose-800/95 text-cream',
+};
+
 export default function LeadForm() {
-  const [showToast, setShowToast] = useState(false);
+  const [status, setStatus] = useState<Status>('idle');
   const reduced = useReducedMotion();
   const f = leadForm.fields;
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: wire to a real submission target — see planning.md → Open TODOs
-    console.warn('LeadForm not wired yet — see planning.md TODO');
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 4500);
+    const formEl = e.currentTarget;
+    const data = Object.fromEntries(new FormData(formEl).entries());
+
+    setStatus('submitting');
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok || !json.ok) {
+        throw new Error(json.error || `submit failed (${res.status})`);
+      }
+      setStatus('success');
+      formEl.reset();
+    } catch (err) {
+      console.error('LeadForm submit failed', err);
+      setStatus('error');
+    }
+
+    // Auto-dismiss success/error after a few seconds so the form returns
+    // to an interactive state. (Submitting clears via the next setState.)
+    setTimeout(() => {
+      setStatus((prev) => (prev === 'submitting' ? prev : 'idle'));
+    }, 5000);
   }
+
+  const isSubmitting = status === 'submitting';
+  const toastVisible = status === 'submitting' || status === 'success' || status === 'error';
+  const toastMessage =
+    status === 'submitting'
+      ? leadForm.submitting
+      : status === 'success'
+        ? leadForm.success
+        : status === 'error'
+          ? leadForm.error
+          : '';
 
   return (
     <Section bg="bg-accent" id="lead-form">
@@ -92,25 +136,50 @@ export default function LeadForm() {
             <Field id="email" label={f.email} type="email" autoComplete="email" />
 
             <div className="pt-3 text-center">
-              <Button pulse type="submit" className="w-full sm:w-auto">
-                {leadForm.cta}
+              <Button
+                pulse
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto disabled:opacity-70 disabled:cursor-wait"
+              >
+                {isSubmitting ? (
+                  <span className="inline-flex items-center gap-2">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-4 w-4 animate-spin"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2.4}
+                      strokeLinecap="round"
+                      aria-hidden
+                    >
+                      <path d="M21 12a9 9 0 11-6.219-8.56" />
+                    </svg>
+                    {leadForm.submitting}
+                  </span>
+                ) : (
+                  leadForm.cta
+                )}
               </Button>
             </div>
           </form>
         </Reveal>
 
         <AnimatePresence>
-          {showToast && (
+          {toastVisible && (
             <motion.div
+              key={status}
               role="status"
               aria-live="polite"
               initial={reduced ? false : { opacity: 0, y: 20 }}
               animate={reduced ? undefined : { opacity: 1, y: 0 }}
               exit={reduced ? undefined : { opacity: 0, y: 10 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-x-4 bottom-6 mx-auto max-w-md rounded-xl bg-ink-deep text-cream px-5 py-4 shadow-cta z-50 text-center"
+              className={`fixed inset-x-4 bottom-6 mx-auto max-w-md rounded-xl px-5 py-4 shadow-cta z-50 text-center ${
+                TOAST_TONE[status as Exclude<Status, 'idle'>]
+              }`}
             >
-              {leadForm.pendingNotice}
+              {toastMessage}
             </motion.div>
           )}
         </AnimatePresence>

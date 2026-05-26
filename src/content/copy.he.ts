@@ -197,10 +197,12 @@ export const leadForm = {
     },
   },
   cta: '✨ אני רוצה לטוס לאומן בט״ו באב',
-  // TODO: wire submission (see planning.md → Open TODOs). For now, the
-  // submit handler logs a warning and shows a visible toast to the user.
-  pendingNotice:
-    'הטופס עוד לא חובר לשירות שליחה — נחזור אלייך אחרי שיחה אישית.',
+  // Submission flow — the form POSTs to /api/lead which forwards to
+  // Monday.com. These three messages cover submitting / success / error
+  // states (see LeadForm.tsx for the state machine).
+  submitting: 'שולחת…',
+  success: 'תודה! קיבלנו את הפרטים, נחזור אלייך בקרוב 💌',
+  error: 'השליחה נכשלה — נסי שוב או חייגי 050-2696862',
 } as const;
 
 export const closingQuote = {

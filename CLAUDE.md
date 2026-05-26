@@ -75,7 +75,11 @@ No Hebrew strings live inside JSX. When the markdown changes, update the TS modu
 
 ## Form
 
-`LeadForm` is **UI-only**. The submit handler must remain a TODO stub — `console.warn('LeadForm not wired yet — see planning.md TODO')` plus a user-visible toast. Do not invent a backend; the wiring decision is deferred to the user (mailto / Formspree / WhatsApp).
+`LeadForm` POSTs to **`/api/lead`** (a Vercel Edge Function at [api/lead.ts](api/lead.ts)), which forwards each submission to the client's Monday.com board via Monday's GraphQL API. Three env vars drive the wiring (see [.env.example](.env.example) for the full list): `MONDAY_API_TOKEN`, `MONDAY_BOARD_ID`, and `MONDAY_COLUMN_MAP` (a JSON map of form field → Monday column id).
+
+The token never reaches the client bundle — it lives only in Vercel env vars and `.env.local` for local `vercel dev`. The form state machine handles `idle | submitting | success | error` and surfaces a toast per state.
+
+Local dev: run `npx vercel dev` instead of `npm run dev` so the `/api/lead` route is served alongside Vite. Without env vars set, the endpoint returns `not-configured` and the form shows the error toast.
 
 ## Heading colors
 
