@@ -166,11 +166,11 @@ export default function LeadForm() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
               <Field id="fullName" label={f.fullName} autoComplete="name" required />
+              <Field id="phone" label={f.phone} type="tel" inputMode="tel" autoComplete="tel" required />
               <Field id="age" label={f.age} type="number" inputMode="numeric" min={16} max={120} />
               <Field id="birthDate" label={f.birthDate} type="date" />
               <Field id="city" label={f.city} autoComplete="address-level2" />
               <Field id="occupation" label={f.occupation} />
-              <Field id="phone" label={f.phone} type="tel" inputMode="tel" autoComplete="tel" required />
             </div>
 
             <RadioGroup name="phoneKind" label={f.phoneKind.label} options={f.phoneKind.options} />
