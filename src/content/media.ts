@@ -35,6 +35,10 @@ export const editorial = {
   // Closing quote backdrop
   closingBackdrop: photo(28),
 
+  // Schedule section backdrop — golden-hour at the Uman healing spring
+  // (מעיין הרפואה), a stop on the itinerary. Swap here to retheme it.
+  scheduleBackdrop: photo(28),
+
   // Photo marquee strip — mirrors the full gallery so every photo
   // appears in both places. Curated picks lead so the strongest shots
   // are visible during the first scroll pass; the rest extend the

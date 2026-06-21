@@ -13,6 +13,7 @@ import ImportantInfo from './components/sections/ImportantInfo';
 import Payment from './components/sections/Payment';
 import Itinerary from './components/sections/Itinerary';
 import Gallery from './components/sections/Gallery';
+import ScheduleSection from './components/sections/ScheduleSection';
 import CinematicMoment from './components/sections/CinematicMoment';
 import VideoMoment from './components/sections/VideoMoment';
 import VideoGallery from './components/sections/VideoGallery';
@@ -68,6 +69,7 @@ export default function App() {
         height="tall"
       />
       <Gallery />
+      <ScheduleSection />
       <Payment />
       <LeadForm />
       <ClosingQuote />
